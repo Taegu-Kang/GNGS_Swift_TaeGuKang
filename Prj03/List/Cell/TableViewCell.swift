@@ -39,5 +39,8 @@ class TableViewCell: UITableViewCell {
         self.yakuLabel.text = data.yaku
         self.syoLabel.text = data.syozoku
     }
+    
+    
+    ///
 
 }
