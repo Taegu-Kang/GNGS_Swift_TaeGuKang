@@ -13,6 +13,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
 //    let employee = [[String]](repeating: Array(repeating: "01社員",count: 4 ), count: 50)
       var dataArr: [SyainnValueSample] = []
+
+    //csv用の Array 用意します。
+      var csvArr: [String] = []
     
     
     override func viewDidLoad() {
@@ -25,7 +28,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //
 //      self.view.addSubview(self.tableView)
 //
+
+        csvArr = loadCSV(fileName: "dataList")
+        print(csvArr)
+        
         loadData()
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -68,17 +76,44 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //func for DummyData
     func loadData(){
+        
         self.dataArr.removeAll()
-        for numInt in 1...40 {
-            var str = "01-1234"
-            if(numInt < 10 ){
-                str = str + "0"
-            }
-            let item = SyainnValueSample(syaNum: str+"\(numInt)", name: "加藤", yaku: "社員", syozoku: "第１チーム")
-            
+        
+//        for numInt in 1...40 {
+//            var str = "01-1234"
+//            if(numInt < 10 ){
+//                str = str + "0"
+//            }
+//            let item = SyainnValueSample(syaNum: str+"\(numInt)", name: "加藤", yaku: "社員", syozoku: "第１チーム")
+//            self.dataArr.append(item)
+//        }
+        
+        
+        //func for csvArr -> loadData
+        for numInt in 0...30 {
+            var arr:[String] = []
+            arr = csvArr[numInt].description.components(separatedBy: ",")
+            let item = SyainnValueSample(syaNum: arr[0], name: arr[1], yaku: arr[4], syozoku: arr[6])
             self.dataArr.append(item)
         }
     }
+    
+    //func for CSVdata into Array
+    func loadCSV(fileName: String) -> [String] {
+          let csvBundle = Bundle.main.path(forResource: fileName, ofType: "csv")!
+        do {
+            let csvData = try String(contentsOfFile: csvBundle, encoding: String.Encoding.utf8)
+            let lineChange = csvData.replacingOccurrences(of: "\r", with: "\n")
+            csvArr = lineChange.components(separatedBy: "\n")
+            csvArr.removeLast()
+        } catch {
+            print("エラー　csv func 関連　")
+        }
+        return csvArr
+    }
+    
+    
+    
 
 
 }

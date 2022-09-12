@@ -16,6 +16,8 @@
 		0F28005328C846C8000845C6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F28005128C846C8000845C6 /* Main.storyboard */; };
 		0F28005528C846C9000845C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F28005428C846C9000845C6 /* Assets.xcassets */; };
 		0F28005828C846C9000845C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F28005628C846C9000845C6 /* LaunchScreen.storyboard */; };
+		0F378CE228CEF79000816935 /* dataList.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0F378CE128CEF79000816935 /* dataList.csv */; };
+		0F378CE428CF320000816935 /* SyainnValueCSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F378CE328CF320000816935 /* SyainnValueCSV.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		0F28005428C846C9000845C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0F28005728C846C9000845C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0F28005928C846C9000845C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0F378CE128CEF79000816935 /* dataList.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = dataList.csv; sourceTree = "<group>"; };
+		0F378CE328CF320000816935 /* SyainnValueCSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyainnValueCSV.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +75,6 @@
 			isa = PBXGroup;
 			children = (
 				0F18D24628CAC115002E07E5 /* DummyData */,
-				0F28006428C87263000845C6 /* TabViewCustom */,
 				0F28006228C871EC000845C6 /* CSV */,
 				0F28006128C85E7B000845C6 /* List */,
 				0F28006028C85E77000845C6 /* Insert */,
@@ -112,15 +115,10 @@
 		0F28006228C871EC000845C6 /* CSV */ = {
 			isa = PBXGroup;
 			children = (
+				0F378CE128CEF79000816935 /* dataList.csv */,
+				0F378CE328CF320000816935 /* SyainnValueCSV.swift */,
 			);
 			path = CSV;
-			sourceTree = "<group>";
-		};
-		0F28006428C87263000845C6 /* TabViewCustom */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = TabViewCustom;
 			sourceTree = "<group>";
 		};
 		0FC1438C28CAF63900EFD7A1 /* Cell */ = {
@@ -191,6 +189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F28005828C846C9000845C6 /* LaunchScreen.storyboard in Resources */,
+				0F378CE228CEF79000816935 /* dataList.csv in Resources */,
 				0F18D24328CA9F36002E07E5 /* TableViewCell.xib in Resources */,
 				0F28005528C846C9000845C6 /* Assets.xcassets in Resources */,
 				0F28005328C846C8000845C6 /* Main.storyboard in Resources */,
@@ -206,6 +205,7 @@
 			files = (
 				0F18D24828CAC16B002E07E5 /* SyainnValueSample.swift in Sources */,
 				0F28005028C846C8000845C6 /* ViewController.swift in Sources */,
+				0F378CE428CF320000816935 /* SyainnValueCSV.swift in Sources */,
 				0F18D24528CAA4AD002E07E5 /* TableViewCell.swift in Sources */,
 				0F28004C28C846C8000845C6 /* AppDelegate.swift in Sources */,
 				0F28004E28C846C8000845C6 /* SceneDelegate.swift in Sources */,

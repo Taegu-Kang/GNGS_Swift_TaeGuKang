@@ -30,7 +30,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="役職" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oAk-2O-W5c">
-                        <rect key="frame" x="187" y="11" width="31" height="18"/>
+                        <rect key="frame" x="187" y="11" width="52" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
@@ -51,7 +51,7 @@
                 <outlet property="syoLabel" destination="rPX-ZF-Nyg" id="mLH-a5-g5c"/>
                 <outlet property="yakuLabel" destination="oAk-2O-W5c" id="Wdd-jC-x4s"/>
             </connections>
-            <point key="canvasLocation" x="-175" y="75"/>
+            <point key="canvasLocation" x="-175.36231884057972" y="75"/>
         </tableViewCell>
     </objects>
 </document>
