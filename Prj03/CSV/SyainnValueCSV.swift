@@ -7,4 +7,11 @@
 
 import Foundation
 
-
+struct SyainnValueCSV {
+    
+    var syaNum = ""
+    var name = ""
+    var yaku = ""
+    var syozoku = ""
+    
+}

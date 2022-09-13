@@ -30,7 +30,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //
 
         csvArr = loadCSV(fileName: "dataList")
-        print(csvArr)
+//      print(csvArr)
         
         loadData()
         
@@ -69,16 +69,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    //deselectRow
+    //Segue for DetailView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        //deselectRow
+        //tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "showDetailMember", sender: nil)
     }
-    
-    //func for DummyData
+
     func loadData(){
-        
         self.dataArr.removeAll()
         
+        //func for DummyData
 //        for numInt in 1...40 {
 //            var str = "01-1234"
 //            if(numInt < 10 ){
@@ -89,8 +90,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        }
         
         
-        //func for csvArr -> loadData
-        for numInt in 0...30 {
+    //func for csvArr[].seperated -> dataArr[].append
+        for numInt in 0...csvArr.count-1 {
             var arr:[String] = []
             arr = csvArr[numInt].description.components(separatedBy: ",")
             let item = SyainnValueSample(syaNum: arr[0], name: arr[1], yaku: arr[4], syozoku: arr[6])
@@ -107,7 +108,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             csvArr = lineChange.components(separatedBy: "\n")
             csvArr.removeLast()
         } catch {
-            print("エラー　csv func 関連　")
+            print("エラー　loadCSV func 関連　")
         }
         return csvArr
     }
