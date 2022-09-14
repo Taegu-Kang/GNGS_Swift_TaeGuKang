@@ -25,6 +25,7 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         tableView.delegate = self
         tableView.dataSource = self
+        
         detailCellArr.append(detailCell.syaNum)
         detailCellArr.append(detailCell.name)
         detailCellArr.append(detailCell.nameKana)

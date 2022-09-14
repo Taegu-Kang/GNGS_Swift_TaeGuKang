@@ -16,7 +16,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
       var detailArr: [SyainnValue] = []
     
-    //csv用の Array 用意します。
+    //csv用の Arrayを用意します。
       var csvArr: [String] = []
     
     
@@ -92,6 +92,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
+    //func for CSVdata into cssArr[]
+    func loadCSV(fileName: String) -> [String] {
+          let csvBundle = Bundle.main.path(forResource: fileName, ofType: "csv")!
+        do {
+            let csvData = try String(contentsOfFile: csvBundle, encoding: String.Encoding.utf8)
+            let lineChange = csvData.replacingOccurrences(of: "\r", with: "\n")
+            csvArr = lineChange.components(separatedBy: "\n")
+            csvArr.removeLast()
+        } catch {
+            print("エラー　loadCSV func 関連　")
+        }
+        return csvArr
+    }
+    
+    
     func loadData(){
         self.dataArr.removeAll()
         
@@ -128,23 +143,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
     }
-    
-    
-    //func for CSVdata into Array1
-    func loadCSV(fileName: String) -> [String] {
-          let csvBundle = Bundle.main.path(forResource: fileName, ofType: "csv")!
-        do {
-            let csvData = try String(contentsOfFile: csvBundle, encoding: String.Encoding.utf8)
-            let lineChange = csvData.replacingOccurrences(of: "\r", with: "\n")
-            csvArr = lineChange.components(separatedBy: "\n")
-            csvArr.removeLast()
-        } catch {
-            print("エラー　loadCSV func 関連　")
-        }
-        return csvArr
-    }
-    
-    
     
 
 
