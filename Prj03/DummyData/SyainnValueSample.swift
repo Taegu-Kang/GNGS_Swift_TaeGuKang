@@ -14,4 +14,5 @@ struct SyainnValueSample {
     var yaku = ""
     var syozoku = ""
     
+    
 }

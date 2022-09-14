@@ -18,7 +18,7 @@
 		0F28005528C846C9000845C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F28005428C846C9000845C6 /* Assets.xcassets */; };
 		0F28005828C846C9000845C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F28005628C846C9000845C6 /* LaunchScreen.storyboard */; };
 		0F378CE228CEF79000816935 /* dataList.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0F378CE128CEF79000816935 /* dataList.csv */; };
-		0F378CE428CF320000816935 /* SyainnValueCSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F378CE328CF320000816935 /* SyainnValueCSV.swift */; };
+		0F378CE428CF320000816935 /* SyainnValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F378CE328CF320000816935 /* SyainnValue.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +35,7 @@
 		0F28005728C846C9000845C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0F28005928C846C9000845C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0F378CE128CEF79000816935 /* dataList.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = dataList.csv; sourceTree = "<group>"; };
-		0F378CE328CF320000816935 /* SyainnValueCSV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyainnValueCSV.swift; sourceTree = "<group>"; };
+		0F378CE328CF320000816935 /* SyainnValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyainnValue.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,7 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				0F378CE128CEF79000816935 /* dataList.csv */,
-				0F378CE328CF320000816935 /* SyainnValueCSV.swift */,
+				0F378CE328CF320000816935 /* SyainnValue.swift */,
 			);
 			path = CSV;
 			sourceTree = "<group>";
@@ -208,7 +208,7 @@
 			files = (
 				0F18D24828CAC16B002E07E5 /* SyainnValueSample.swift in Sources */,
 				0F28005028C846C8000845C6 /* ViewController.swift in Sources */,
-				0F378CE428CF320000816935 /* SyainnValueCSV.swift in Sources */,
+				0F378CE428CF320000816935 /* SyainnValue.swift in Sources */,
 				0F18D24528CAA4AD002E07E5 /* TableViewCell.swift in Sources */,
 				0F28004C28C846C8000845C6 /* AppDelegate.swift in Sources */,
 				0F28004E28C846C8000845C6 /* SceneDelegate.swift in Sources */,

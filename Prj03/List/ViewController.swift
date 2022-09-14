@@ -13,7 +13,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
 //    let employee = [[String]](repeating: Array(repeating: "01社員",count: 4 ), count: 50)
       var dataArr: [SyainnValueSample] = []
-
+    
+      var detailArr: [SyainnValue] = []
+    
     //csv用の Array 用意します。
       var csvArr: [String] = []
     
@@ -33,6 +35,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //      print(csvArr)
         
         loadData()
+        loadData2()
         
     }
     
@@ -75,7 +78,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //tableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: "showDetailMember", sender: nil)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDetailMember" {
+            if let indexPath = tableView.indexPathForSelectedRow {
 
+                guard let destination = segue.destination as? DetailViewController else {
+                    fatalError("Failed to prepare DetailViewController.")
+                }
+
+                destination.detailCell = detailArr[indexPath.row]
+            }
+        }
+    }
+    
     func loadData(){
         self.dataArr.removeAll()
         
@@ -95,11 +111,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             var arr:[String] = []
             arr = csvArr[numInt].description.components(separatedBy: ",")
             let item = SyainnValueSample(syaNum: arr[0], name: arr[1], yaku: arr[4], syozoku: arr[6])
+            
             self.dataArr.append(item)
         }
     }
     
-    //func for CSVdata into Array
+    //for DetailViewCell
+    func loadData2(){
+        for numInt in 0...csvArr.count-1 {
+            var arr:[String] = []
+            arr = csvArr[numInt].description.components(separatedBy: ",")
+
+            let syainn : SyainnValue = SyainnValue( syaNum: arr[0], name: arr[1], nameKana : arr[2], nameEng: arr[3], yaku: arr[4], syozoku: arr[6], mail: arr[7], phoneNum: arr[9] )
+            
+            self.detailArr.append(syainn)
+        }
+        
+    }
+    
+    
+    //func for CSVdata into Array1
     func loadCSV(fileName: String) -> [String] {
           let csvBundle = Bundle.main.path(forResource: fileName, ofType: "csv")!
         do {
