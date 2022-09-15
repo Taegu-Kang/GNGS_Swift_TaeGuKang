@@ -10,11 +10,14 @@ import UIKit
 class VerticalViewController: UIViewController {
 
     @IBOutlet weak var verticalStackView: UIStackView!
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        scrollView.contentSize = CGSize(width: verticalStackView.frame.width, height: verticalStackView.frame.height)
         
-//       configureStackView()
+        configureStackView()
     }
     
     private func configureStackView() {
@@ -24,7 +27,7 @@ class VerticalViewController: UIViewController {
         }
     }
     
-    // 랜덤 색상, 100~400 height를 가진 뷰 생성 함수
+    // ランダム色, 100~400 heightを持ったView func生成
     private func randomColoredView() -> UIView {
         let view = UIView()
         view.backgroundColor = UIColor(
