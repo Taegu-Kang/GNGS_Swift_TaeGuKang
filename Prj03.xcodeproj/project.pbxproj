@@ -12,7 +12,6 @@
 		0F18D24828CAC16B002E07E5 /* SyainnValueSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F18D24728CAC16B002E07E5 /* SyainnValueSample.swift */; };
 		0F199F8528D085CB006ED876 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F199F8428D085CB006ED876 /* DetailViewController.swift */; };
 		0F2702B028D1D00B00F7FC0C /* InsertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F2702AF28D1D00B00F7FC0C /* InsertViewController.swift */; };
-		0F2702B228D2E67900F7FC0C /* VerticalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F2702B128D2E67900F7FC0C /* VerticalViewController.swift */; };
 		0F28004C28C846C8000845C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F28004B28C846C8000845C6 /* AppDelegate.swift */; };
 		0F28004E28C846C8000845C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F28004D28C846C8000845C6 /* SceneDelegate.swift */; };
 		0F28005028C846C8000845C6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F28004F28C846C8000845C6 /* ViewController.swift */; };
@@ -29,7 +28,6 @@
 		0F18D24728CAC16B002E07E5 /* SyainnValueSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyainnValueSample.swift; sourceTree = "<group>"; };
 		0F199F8428D085CB006ED876 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		0F2702AF28D1D00B00F7FC0C /* InsertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertViewController.swift; sourceTree = "<group>"; };
-		0F2702B128D2E67900F7FC0C /* VerticalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalViewController.swift; sourceTree = "<group>"; };
 		0F28004828C846C8000845C6 /* Prj03.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Prj03.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F28004B28C846C8000845C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0F28004D28C846C8000845C6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -106,7 +104,6 @@
 			isa = PBXGroup;
 			children = (
 				0F2702AF28D1D00B00F7FC0C /* InsertViewController.swift */,
-				0F2702B128D2E67900F7FC0C /* VerticalViewController.swift */,
 			);
 			path = Insert;
 			sourceTree = "<group>";
@@ -214,7 +211,6 @@
 			files = (
 				0F18D24828CAC16B002E07E5 /* SyainnValueSample.swift in Sources */,
 				0F2702B028D1D00B00F7FC0C /* InsertViewController.swift in Sources */,
-				0F2702B228D2E67900F7FC0C /* VerticalViewController.swift in Sources */,
 				0F28005028C846C8000845C6 /* ViewController.swift in Sources */,
 				0F378CE428CF320000816935 /* SyainnValue.swift in Sources */,
 				0F18D24528CAA4AD002E07E5 /* TableViewCell.swift in Sources */,

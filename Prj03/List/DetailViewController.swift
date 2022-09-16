@@ -46,7 +46,7 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return detailTitle.count
     }
     
-    //Cell生成
+    //Cell 生成
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
          
         cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath)
