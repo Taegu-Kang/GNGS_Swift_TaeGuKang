@@ -376,6 +376,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="登録"/>
+                                <connections>
+                                    <action selector="signUpButton:" destination="1hD-N4-Kek" eventType="touchUpInside" id="c4a-cp-hFL"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="TEg-TB-WqX"/>

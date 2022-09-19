@@ -19,10 +19,14 @@ class InsertViewController: UIViewController {
     @IBOutlet weak var pw1: UITextField!
     @IBOutlet weak var pw2: UITextField!
     
+    
+    
+    
     //validation check 項目
-    var flag1 : Bool = false
-    var flag2 : Bool = false
-    var flag3 : Bool = false
+    var idValiFlag : Bool = false
+    var pwValiFlag : Bool = false
+    var yakkannCheckFlag : Bool = false
+    
     var flag4 : Bool = false
     
     
@@ -40,6 +44,8 @@ class InsertViewController: UIViewController {
     //radioButton
     
     
+    //alert
+    var alert : UIAlertController = UIAlertController()
     
     
     override func viewDidLoad() {
@@ -56,12 +62,11 @@ class InsertViewController: UIViewController {
         syokuPickerView.dataSource = self
         
         //checkBox default値
-        checkBox.isSelected = true
-        checkBox.setImage(checkBox.isSelected ? checkImage : noneCheckImage, for: .normal)
+          checkBox.isSelected = false
+          checkBox.setImage(checkBox.isSelected ? checkImage : noneCheckImage, for: .normal)
 
         
     }
-    
     
     //checkBox Toggle
     @IBAction func checkBoxAction(_ sender: UIButton) {
@@ -73,27 +78,150 @@ class InsertViewController: UIViewController {
     }
     
     
-    //Validation func1
+    //Validation func1 ( ID )
+    func idValidation() -> Bool {
+        //空白チェック
+        if id.text!.isEmpty, id.text! == "" {
+            alert = UIAlertController(title: "idを入力してください。", message: "IDが空いております。\n 入力してください。", preferredStyle: UIAlertController.Style.alert)
+            
+            let idAlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
+                self.id.becomeFirstResponder()
+            })
+            
+            alert.addAction(idAlertAction)
+            
+            self.present(alert, animated: true, completion: nil)
+            
+            return false
+        }
+        //正規化チェック
+        if id.text!.range(of: "[A-Z0-9a-z._%+-]+@[A-Za-z]+.[A-Za-z]", options: .regularExpression) == nil{
+           
+            alert = UIAlertController(title: "メールアドレスを入力してください。", message: "IDはメールアドレスです。", preferredStyle: UIAlertController.Style.alert)
+            
+            let idAlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
+                self.id.becomeFirstResponder()
+            })
+            
+            alert.addAction(idAlertAction)
+            
+            self.present(alert, animated: true, completion: nil)
+            
+            
+           return false
+        }
+        //pass
+        return true
+    }
     
-    //Validation func2
     
-    //Validation func3
+    //Validation func2 ( pw1, pw2 )
+    func pwValidation() -> Bool {
+        //空白チェック pw1
+        if pw1.text!.isEmpty, pw1.text! == "" {
+            alert = UIAlertController(title: "パスワードを入力してください。", message: "パスワードが空いております。\n 入力してください。", preferredStyle: UIAlertController.Style.alert)
+            
+            let pw1AlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
+                self.id.becomeFirstResponder()
+            })
+            
+            alert.addAction(pw1AlertAction)
+            
+            self.present(alert, animated: true, completion: nil)
+            
+            return false
+            
+        }
+        //正規化チェック pw1
+        if pw1.text!.range(of: "^.*(?=^.{8,15}$)(?=.*[0-9])(?=.*[a-zA-Z]).*$", options: .regularExpression) == nil{
+            alert = UIAlertController(title: "パスワードは小文字、大文字、数字を混ぜて８桁以上になります。", message: "パスワードは小文字、大文字、数字を混ぜて８桁以上になります。", preferredStyle: UIAlertController.Style.alert)
+            
+            let pw1AlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
+                self.pw1    .becomeFirstResponder()
+            })
+            
+            alert.addAction(pw1AlertAction)
+            
+            self.present(alert, animated: true, completion: nil)
+            return false
+        }
+        //空白チェック pw2
+        if pw2.text!.isEmpty, pw2.text! == "" {
+            alert = UIAlertController(title: "パスワード(再入力)を入力してください。", message: "パスワード(再入力)が空いております。\n 入力してください。", preferredStyle: UIAlertController.Style.alert)
+            
+            let pw2AlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
+                self.pw2.becomeFirstResponder()
+            })
+            
+            alert.addAction(pw2AlertAction)
+            
+            self.present(alert, animated: true, completion: nil)
+            
+            return false
+        }
+        //pw1,pw2 一致性チェック
+        if pw1.text! != pw2.text! {
+            alert = UIAlertController(title: "パスワード(再入力)とパスワードが一致しません。", message: "パスワード(再入力)とパスワードが一致しません。", preferredStyle: UIAlertController.Style.alert)
+            
+            let pw2AlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
+                self.pw2.becomeFirstResponder()
+            })
+            
+            alert.addAction(pw2AlertAction)
+            
+            self.present(alert, animated: true, completion: nil)
+            return false
+        }
+        
+        return true
+    }
+    
+    //Validation func3 ( 約款　必須Check　確認 )
+    func yakkannCheck() -> Bool {
+        //約款checkBox必須チェック確認
+        if checkBoxBool {
+            alert = UIAlertController(title: "約款に同意してください。", message: "約款に同意してください。", preferredStyle: UIAlertController.Style.alert)
+            
+            let yakkannAlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
+                self.checkBox.becomeFirstResponder()
+            })
+            
+            alert.addAction(yakkannAlertAction)
+            
+            self.present(alert, animated: true, completion: nil)
+            return false
+        }
+        return true
+    }
     
     //Validation func4
     
     
-    //登録ボタン　action　, validation_func check : error message 表示（ポップオップ）
+    
+    //登録ボタン　action　, validation_func check : vali_flag, error message 表示
     @IBAction func signUpButton(_ sender: UIButton) {
         
-        //func1
         
-        //func2
+        //vali func1
+        idValiFlag = idValidation()
         
-        //func3
+        //vali func2
+        pwValiFlag = pwValidation()
+        
+        //vali func3
+        yakkannCheckFlag = yakkannCheck()
         
         //func4
         
-        //flag check func()
+        //f1,f2,f3,f4 = All valiFlag check func()
+        print("id Flag : ",  idValiFlag)
+        print("pw Flag : ",  pwValiFlag)
+        print("yakkann Flag : ",  yakkannCheckFlag)
+        
+        if(idValiFlag && pwValiFlag && yakkannCheckFlag ){
+            print("All PASS")
+        }
+        
         
     }
     
