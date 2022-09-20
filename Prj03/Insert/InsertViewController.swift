@@ -28,7 +28,7 @@ class InsertViewController: UIViewController {
     @IBOutlet weak var checkBox: UIButton!
     let noneCheckImage = UIImage(systemName: "square")
     let checkImage = UIImage(systemName: "checkmark.square.fill")
-    var checkBoxBool : Bool = true
+    var checkBoxBool : Bool = false
     
     //radioButton
      //Male
@@ -82,7 +82,7 @@ class InsertViewController: UIViewController {
         checkBoxBool.toggle()
         checkBox.setImage(checkBox.isSelected ? checkImage : noneCheckImage, for: .normal)
         
-        print(checkBoxBool)
+        print("checkBoxBool :" , checkBoxBool)
     }
     
     
@@ -90,6 +90,7 @@ class InsertViewController: UIViewController {
         //male Button
     @IBAction func maleRadioAction(_ sender: Any) {
         maleRadio.isSelected = true
+        femaleRadio.isSelected = false
         maleBool.toggle()
         femaleBool.toggle()
         maleRadio.setImage(maleRadio.isSelected ? ChkMale : noneChkMale, for: .normal)
@@ -98,6 +99,7 @@ class InsertViewController: UIViewController {
         //female Button
     @IBAction func femaleRadioAction(_ sender: Any) {
         femaleRadio.isSelected = true
+        maleRadio.isSelected = false
         femaleBool.toggle()
         maleBool.toggle()
         femaleRadio.setImage(femaleRadio.isSelected ? ChkFemale : noneChkFemale, for: .normal)
