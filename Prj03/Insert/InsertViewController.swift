@@ -50,6 +50,10 @@ class InsertViewController: UIViewController {
     //alert
     var alert : UIAlertController = UIAlertController()
     
+    //
+    //var textField = UITextField()
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,6 +77,9 @@ class InsertViewController: UIViewController {
         maleRadio.setImage(maleRadio.isSelected ? ChkMale : noneChkMale, for: .normal)
         femaleRadio.isSelected = false
         femaleRadio.setImage(femaleRadio.isSelected ? ChkFemale : noneChkFemale, for: .normal)
+        
+        //入力制限
+        id.delegate = self
         
     }
     
@@ -289,4 +296,12 @@ extension InsertViewController: UIPickerViewDataSource, UIPickerViewDelegate {
         //syokuTextField.isUserInteractionEnabled = false
     }
 
+}
+
+//入力制限　関連
+extension InsertViewController:UITextFieldDelegate {
+    func textField(_ id: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard id.text!.count < 20 else { return false }
+        return true
+    }
 }
