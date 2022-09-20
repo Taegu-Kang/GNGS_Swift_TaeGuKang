@@ -19,16 +19,10 @@ class InsertViewController: UIViewController {
     @IBOutlet weak var pw1: UITextField!
     @IBOutlet weak var pw2: UITextField!
     
-    
-    
-    
     //validation check 項目
     var idValiFlag : Bool = false
     var pwValiFlag : Bool = false
     var yakkannCheckFlag : Bool = false
-    
-    var flag4 : Bool = false
-    
     
     //checkBox
     @IBOutlet weak var checkBox: UIButton!
@@ -36,13 +30,22 @@ class InsertViewController: UIViewController {
     let checkImage = UIImage(systemName: "checkmark.square.fill")
     var checkBoxBool : Bool = true
     
+    //radioButton
+     //Male
+    @IBOutlet weak var maleRadio: UIButton!
+    let noneChkMale = UIImage(systemName: "circle")
+    let ChkMale = UIImage(systemName: "circle.inset.filled")
+    var maleBool : Bool = true
+     //Female
+    @IBOutlet weak var femaleRadio: UIButton!
+    let noneChkFemale = UIImage(systemName: "circle")
+    let ChkFemale = UIImage(systemName: "circle.inset.filled")
+    var femaleBool : Bool = false
+    
     //PickerView
     @IBOutlet weak var syokuTextField: UITextField!
     let syokuArr = ["学生","社会人","主婦","公務員","その他"]
     var syokuPickerView = UIPickerView()
-    
-    //radioButton
-    
     
     //alert
     var alert : UIAlertController = UIAlertController()
@@ -62,9 +65,14 @@ class InsertViewController: UIViewController {
         syokuPickerView.dataSource = self
         
         //checkBox default値
-          checkBox.isSelected = false
-          checkBox.setImage(checkBox.isSelected ? checkImage : noneCheckImage, for: .normal)
-
+        checkBox.isSelected = false
+        checkBox.setImage(checkBox.isSelected ? checkImage : noneCheckImage, for: .normal)
+        
+        //性別radio button default値
+        maleRadio.isSelected = true
+        maleRadio.setImage(maleRadio.isSelected ? ChkMale : noneChkMale, for: .normal)
+        femaleRadio.isSelected = false
+        femaleRadio.setImage(femaleRadio.isSelected ? ChkFemale : noneChkFemale, for: .normal)
         
     }
     
@@ -78,11 +86,30 @@ class InsertViewController: UIViewController {
     }
     
     
+    //radioButton Toggle
+        //male Button
+    @IBAction func maleRadioAction(_ sender: Any) {
+        maleRadio.isSelected = true
+        maleBool.toggle()
+        femaleBool.toggle()
+        maleRadio.setImage(maleRadio.isSelected ? ChkMale : noneChkMale, for: .normal)
+        femaleRadio.setImage(femaleRadio.isSelected ? ChkFemale : noneChkFemale, for: .normal)
+    }
+        //female Button
+    @IBAction func femaleRadioAction(_ sender: Any) {
+        femaleRadio.isSelected = true
+        femaleBool.toggle()
+        maleBool.toggle()
+        femaleRadio.setImage(femaleRadio.isSelected ? ChkFemale : noneChkFemale, for: .normal)
+        maleRadio.setImage(maleRadio.isSelected ? ChkMale : noneChkMale, for: .normal)
+    }
+    
+    
     //Validation func1 ( ID )
     func idValidation() -> Bool {
         //空白チェック
         if id.text!.isEmpty, id.text! == "" {
-            alert = UIAlertController(title: "idを入力してください。", message: "IDが空いております。\n 入力してください。", preferredStyle: UIAlertController.Style.alert)
+            alert = UIAlertController(title: "IDを入力してください。", message: "IDが空いております。\n 入力してください。", preferredStyle: UIAlertController.Style.alert)
             
             let idAlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
                 self.id.becomeFirstResponder()
@@ -122,7 +149,7 @@ class InsertViewController: UIViewController {
             alert = UIAlertController(title: "パスワードを入力してください。", message: "パスワードが空いております。\n 入力してください。", preferredStyle: UIAlertController.Style.alert)
             
             let pw1AlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
-                self.id.becomeFirstResponder()
+                self.pw1.becomeFirstResponder()
             })
             
             alert.addAction(pw1AlertAction)
@@ -137,7 +164,7 @@ class InsertViewController: UIViewController {
             alert = UIAlertController(title: "パスワードは小文字、大文字、数字を混ぜて８桁以上になります。", message: "パスワードは小文字、大文字、数字を混ぜて８桁以上になります。", preferredStyle: UIAlertController.Style.alert)
             
             let pw1AlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
-                self.pw1    .becomeFirstResponder()
+                self.pw1.becomeFirstResponder()
             })
             
             alert.addAction(pw1AlertAction)
@@ -176,9 +203,9 @@ class InsertViewController: UIViewController {
         return true
     }
     
-    //Validation func3 ( 約款　必須Check　確認 )
+    //Validation func3 ( 約款Check　)
     func yakkannCheck() -> Bool {
-        //約款checkBox必須チェック確認
+        //約款checkBoxBool チェック
         if checkBoxBool {
             alert = UIAlertController(title: "約款に同意してください。", message: "約款に同意してください。", preferredStyle: UIAlertController.Style.alert)
             
@@ -194,9 +221,6 @@ class InsertViewController: UIViewController {
         return true
     }
     
-    //Validation func4
-    
-    
     
     //登録ボタン　action　, validation_func check : vali_flag, error message 表示
     @IBAction func signUpButton(_ sender: UIButton) {
@@ -211,9 +235,8 @@ class InsertViewController: UIViewController {
         //vali func3
         yakkannCheckFlag = yakkannCheck()
         
-        //func4
         
-        //f1,f2,f3,f4 = All valiFlag check func()
+        //f1,f2,f3 = All valiFlag check
         print("id Flag : ",  idValiFlag)
         print("pw Flag : ",  pwValiFlag)
         print("yakkann Flag : ",  yakkannCheckFlag)
