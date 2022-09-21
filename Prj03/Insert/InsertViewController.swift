@@ -10,14 +10,17 @@ import Foundation
 
 
 class InsertViewController: UIViewController {
-    
+    //scroll 関連
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var formView: UIView!
     
-    //
+    //member 変数
     @IBOutlet weak var id: UITextField!
     @IBOutlet weak var pw1: UITextField!
     @IBOutlet weak var pw2: UITextField!
+    
+    @IBOutlet weak var memo: UITextView!
+    
     
     //validation check 項目
     var idValiFlag : Bool = false
@@ -57,9 +60,10 @@ class InsertViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        //scroll
         scrollView.contentSize = CGSize(width: formView.frame.width, height: formView.frame.height)
         
+        //pickerView
         syokuTextField.inputView = syokuPickerView
         
         syokuTextField.tintColor = .clear
@@ -80,8 +84,47 @@ class InsertViewController: UIViewController {
         
         //入力制限 delegate
         id.delegate = self
+        pw1.delegate = self
+        pw2.delegate = self
+        
+        //keyboard type
+        id.keyboardType = .emailAddress
+        pw1.keyboardType = .asciiCapable
+        pw2.keyboardType = .asciiCapable
+        
+        //keyboard down
+        let tapGR: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGR.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tapGR)
+        
+        //keyboard up
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
     }
+    
+    //
+    @objc func dismissKeyboard() {
+        self.view.endEditing(true)
+    }
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if !memo.isFirstResponder {
+            return
+        }
+        
+        if self.view.frame.origin.y == 0 {
+            if let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height {
+                self.view.frame.origin.y -= (keyboardRect - 50)
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
+    
     
     //checkBox Toggle
     @IBAction func checkBoxAction(_ sender: UIButton) {
@@ -250,8 +293,25 @@ class InsertViewController: UIViewController {
         
         if(idValiFlag && pwValiFlag && yakkannCheckFlag ){
             print("All PASS")
+            
+            //check 完了して, detail画面遷移
+            self.performSegue(withIdentifier: "showInsertMember", sender: nil)
         }
     }
+    
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showInsertMember" {
+//            guard let destination = segue.destination as? Detail_InsertViewController else {
+//                fatalError("Failed to prepare DetailViewController.")
+//
+//            }
+//            destination.signupMember = self.signupMember
+        }
+    }
+    
+    
+    
     
     // flag check func _ flag 1,2,3,4 check -> OK -> 登録完了、確認画面に遷移
     
@@ -296,9 +356,33 @@ extension InsertViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 
 //入力制限　関連
 extension InsertViewController:UITextFieldDelegate {
-    func textField(_ id: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard id.text!.count < 20 else { return false }
-        return true
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        print(string)
+        //
+        let invalid  : NSCharacterSet = NSCharacterSet(charactersIn:  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@._-").inverted as NSCharacterSet
+        let range = string.rangeOfCharacter(from: invalid as CharacterSet)
+        
+        
+        //backSpace 可能化
+        if let char = string.cString(using: String.Encoding.utf8) {
+             let isBackSpace = strcmp(char, "\\b")
+             if isBackSpace == -92 {
+                 return true
+             }
+         }
+        
+        if textField == id {
+            //id
+            guard range == nil else { return false }
+            guard textField.text!.count < 20 else { return false }
+            return true
+        } else {
+            //pw1, pw2
+            guard textField.text!.count < 15 else { return false }
+            return true
+        }
+        
+        
     }
 }
 
