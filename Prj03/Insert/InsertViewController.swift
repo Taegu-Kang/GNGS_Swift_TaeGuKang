@@ -78,7 +78,7 @@ class InsertViewController: UIViewController {
         femaleRadio.isSelected = false
         femaleRadio.setImage(femaleRadio.isSelected ? ChkFemale : noneChkFemale, for: .normal)
         
-        //入力制限
+        //入力制限 delegate
         id.delegate = self
         
     }
@@ -155,7 +155,7 @@ class InsertViewController: UIViewController {
     func pwValidation() -> Bool {
         //空白チェック pw1
         if pw1.text!.isEmpty, pw1.text! == "" {
-            alert = UIAlertController(title: "パスワードを入力してください。", message: "パスワードが空いております。\n 入力してください。", preferredStyle: UIAlertController.Style.alert)
+            alert = UIAlertController(title: "", message: "パスワードが空いております。\n 入力してください。", preferredStyle: UIAlertController.Style.alert)
             
             let pw1AlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
                 self.pw1.becomeFirstResponder()
@@ -170,7 +170,7 @@ class InsertViewController: UIViewController {
         }
         //正規化チェック pw1
         if pw1.text!.range(of: "^.*(?=^.{8,15}$)(?=.*[0-9])(?=.*[a-zA-Z]).*$", options: .regularExpression) == nil{
-            alert = UIAlertController(title: "パスワードは小文字、大文字、数字を混ぜて８桁以上になります。", message: "パスワードは小文字、大文字、数字を混ぜて８桁以上になります。", preferredStyle: UIAlertController.Style.alert)
+            alert = UIAlertController(title: "", message: "パスワードは小文字、大文字、数字を混ぜて８桁以上になります。", preferredStyle: UIAlertController.Style.alert)
             
             let pw1AlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
                 self.pw1.becomeFirstResponder()
@@ -183,7 +183,7 @@ class InsertViewController: UIViewController {
         }
         //空白チェック pw2
         if pw2.text!.isEmpty, pw2.text! == "" {
-            alert = UIAlertController(title: "パスワード(再入力)を入力してください。", message: "パスワード(再入力)が空いております。\n 入力してください。", preferredStyle: UIAlertController.Style.alert)
+            alert = UIAlertController(title: "", message: "パスワード(再入力)が空いております。\n 入力してください。", preferredStyle: UIAlertController.Style.alert)
             
             let pw2AlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
                 self.pw2.becomeFirstResponder()
@@ -197,7 +197,7 @@ class InsertViewController: UIViewController {
         }
         //pw1,pw2 一致性チェック
         if pw1.text! != pw2.text! {
-            alert = UIAlertController(title: "パスワード(再入力)とパスワードが一致しません。", message: "パスワード(再入力)とパスワードが一致しません。", preferredStyle: UIAlertController.Style.alert)
+            alert = UIAlertController(title: "", message: "パスワード(再入力)とパスワードが一致しません。", preferredStyle: UIAlertController.Style.alert)
             
             let pw2AlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
                 self.pw2.becomeFirstResponder()
@@ -215,8 +215,8 @@ class InsertViewController: UIViewController {
     //Validation func3 ( 約款Check　)
     func yakkannCheck() -> Bool {
         //約款checkBoxBool チェック
-        if checkBoxBool {
-            alert = UIAlertController(title: "約款に同意してください。", message: "約款に同意してください。", preferredStyle: UIAlertController.Style.alert)
+        if !checkBoxBool {
+            alert = UIAlertController(title: "", message: "約款に同意してください。", preferredStyle: UIAlertController.Style.alert)
             
             let yakkannAlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
                 self.checkBox.becomeFirstResponder()
@@ -234,7 +234,6 @@ class InsertViewController: UIViewController {
     //登録ボタン　action　, validation_func check : vali_flag, error message 表示
     @IBAction func signUpButton(_ sender: UIButton) {
         
-        
         //vali func1
         idValiFlag = idValidation()
         
@@ -244,7 +243,6 @@ class InsertViewController: UIViewController {
         //vali func3
         yakkannCheckFlag = yakkannCheck()
         
-        
         //f1,f2,f3 = All valiFlag check
         print("id Flag : ",  idValiFlag)
         print("pw Flag : ",  pwValiFlag)
@@ -253,8 +251,6 @@ class InsertViewController: UIViewController {
         if(idValiFlag && pwValiFlag && yakkannCheckFlag ){
             print("All PASS")
         }
-        
-        
     }
     
     // flag check func _ flag 1,2,3,4 check -> OK -> 登録完了、確認画面に遷移
@@ -305,3 +301,5 @@ extension InsertViewController:UITextFieldDelegate {
         return true
     }
 }
+
+
