@@ -9,17 +9,25 @@ import UIKit
 
 class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    var insertValue : InsertValue = InsertValue()
+    
     @IBOutlet weak var tableView: UITableView!
     
     var cell : UITableViewCell = UITableViewCell()
     
     var detailTitle : [String]  = ["ID", "職業","性別","メールマガジン","約款同意","メモ"]
     
+    var detailContext : [String] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        prepareCon()
+        
+        
 
         // Do any additional setup after loading the view.
     }
@@ -44,10 +52,10 @@ class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITabl
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         let label1 = cell.contentView.viewWithTag(1) as! UILabel
-        //let label2 = cell.contentView.viewWithTag(2) as! UILabel
+        let label2 = cell.contentView.viewWithTag(2) as! UILabel
        
         label1.text = detailTitle[indexPath.item]
-        //label2.text = detailCellArr[indexPath.item]
+        label2.text = detailContext[indexPath.item]
         
         
     }
@@ -61,5 +69,28 @@ class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITabl
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func prepareCon() {
+        detailContext.append(insertValue.id)
+        detailContext.append(insertValue.syoku)
+        if(insertValue.gender == "male"){
+            detailContext.append("男性")
+        }else{
+            detailContext.append("女性")
+        }
+        if(insertValue.mail_magazine){
+            detailContext.append("同義")
+        }else{
+            detailContext.append("非同義")
+        }
+        if(insertValue.yakkann){
+            detailContext.append("同義")
+        }else{
+            detailContext.append("非同義")
+        }
+        detailContext.append(insertValue.memo)
+        
+    }
+    
 
 }

@@ -19,6 +19,10 @@ class SyainnValue : ObservableObject {
     var mail : String
     var phoneNum : String
     
+    
+    
+    
+    
     init(syaNum:String, name: String, nameKana:String , nameEng: String, yaku : String, syozoku : String, mail : String, phoneNum : String) {
         self.syaNum = syaNum
         self.name = name

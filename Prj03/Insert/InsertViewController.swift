@@ -10,6 +10,9 @@ import Foundation
 
 
 class InsertViewController: UIViewController {
+    
+    var insertValue : InsertValue = InsertValue()
+    
     //scroll 関連
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var formView: UIView!
@@ -53,9 +56,6 @@ class InsertViewController: UIViewController {
     //alert
     var alert : UIAlertController = UIAlertController()
     
-    //
-    //var textField = UITextField()
-    
     
     
     override func viewDidLoad() {
@@ -72,6 +72,9 @@ class InsertViewController: UIViewController {
         syokuPickerView.delegate = self
         syokuPickerView.dataSource = self
         
+        syokuTextField.text = "学生"
+        
+
         //checkBox default値
         checkBox.isSelected = false
         checkBox.setImage(checkBox.isSelected ? checkImage : noneCheckImage, for: .normal)
@@ -251,7 +254,7 @@ class InsertViewController: UIViewController {
             self.present(alert, animated: true, completion: nil)
             return false
         }
-        
+        //pass
         return true
     }
     
@@ -270,6 +273,7 @@ class InsertViewController: UIViewController {
             self.present(alert, animated: true, completion: nil)
             return false
         }
+        //pass
         return true
     }
     
@@ -294,7 +298,9 @@ class InsertViewController: UIViewController {
         if(idValiFlag && pwValiFlag && yakkannCheckFlag ){
             print("All PASS")
             
-            //check 完了して, detail画面遷移
+            insertValue = InsertValue(id: id.text!, syoku: syokuTextField.text!, gender: "male", mail_magazine: true, yakkann: true, memo: memo.text!)
+            
+            //flag check func _ flag 1,2,3 check -> OK -> 登録完了、確認画面に遷移
             self.performSegue(withIdentifier: "showInsertMember", sender: nil)
         }
     }
@@ -302,19 +308,14 @@ class InsertViewController: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showInsertMember" {
-//            guard let destination = segue.destination as? Detail_InsertViewController else {
-//                fatalError("Failed to prepare DetailViewController.")
-//
-//            }
-//            destination.signupMember = self.signupMember
+            guard let destination = segue.destination as? Detail_InsertViewController else {
+                fatalError("Failed to prepare DetailViewController.")
+
+            }
+                //data tennsou
+            destination.insertValue = self.insertValue
         }
     }
-    
-    
-    
-    
-    // flag check func _ flag 1,2,3,4 check -> OK -> 登録完了、確認画面に遷移
-    
     
     
     
@@ -348,7 +349,7 @@ extension InsertViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         syokuTextField.text = syokuArr[row]
-        syokuTextField.resignFirstResponder()
+        //syokuTextField.resignFirstResponder()
         //syokuTextField.isUserInteractionEnabled = false
     }
 
@@ -358,27 +359,33 @@ extension InsertViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 extension InsertViewController:UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         print(string)
-        //
+        
+        let currStr = textField.text! as NSString
+        let changed = currStr.replacingCharacters(in: range, with: string)
+        
+        
         let invalid  : NSCharacterSet = NSCharacterSet(charactersIn:  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@._-").inverted as NSCharacterSet
         let range = string.rangeOfCharacter(from: invalid as CharacterSet)
         
         
         //backSpace 可能化
-        if let char = string.cString(using: String.Encoding.utf8) {
-             let isBackSpace = strcmp(char, "\\b")
-             if isBackSpace == -92 {
-                 return true
-             }
-         }
+//        if let char = string.cString(using: String.Encoding.utf8) {
+//             let isBackSpace = strcmp(char, "\\b")
+//             if isBackSpace == -92 {
+//                 return true
+//             }
+//         }
         
         if textField == id {
             //id
             guard range == nil else { return false }
-            guard textField.text!.count < 20 else { return false }
+            guard changed.count < 50 else { return false }
             return true
         } else {
             //pw1, pw2
-            guard textField.text!.count < 15 else { return false }
+            
+            //guard textField.text!.count < 15 else { return false }
+            guard changed.count < 15 else { return false }
             return true
         }
         

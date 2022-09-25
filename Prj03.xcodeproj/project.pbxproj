@@ -21,6 +21,8 @@
 		0F2ADB4128DAEBFD009B708F /* Detail_InsertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F2ADB4028DAEBFD009B708F /* Detail_InsertViewController.swift */; };
 		0F378CE228CEF79000816935 /* dataList.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0F378CE128CEF79000816935 /* dataList.csv */; };
 		0F378CE428CF320000816935 /* SyainnValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F378CE328CF320000816935 /* SyainnValue.swift */; };
+		0F430C7E28DC741A007E9465 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F430C7D28DC741A007E9465 /* WebViewController.swift */; };
+		0F430C8028E05F27007E9465 /* InsertValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F430C7F28E05F27007E9465 /* InsertValue.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,8 @@
 		0F2ADB4028DAEBFD009B708F /* Detail_InsertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail_InsertViewController.swift; sourceTree = "<group>"; };
 		0F378CE128CEF79000816935 /* dataList.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = dataList.csv; sourceTree = "<group>"; };
 		0F378CE328CF320000816935 /* SyainnValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyainnValue.swift; sourceTree = "<group>"; };
+		0F430C7D28DC741A007E9465 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		0F430C7F28E05F27007E9465 /* InsertValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertValue.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +102,7 @@
 		0F28005F28C85E73000845C6 /* WebView */ = {
 			isa = PBXGroup;
 			children = (
+				0F430C7D28DC741A007E9465 /* WebViewController.swift */,
 			);
 			path = WebView;
 			sourceTree = "<group>";
@@ -107,6 +112,7 @@
 			children = (
 				0F2702AF28D1D00B00F7FC0C /* InsertViewController.swift */,
 				0F2ADB4028DAEBFD009B708F /* Detail_InsertViewController.swift */,
+				0F430C7F28E05F27007E9465 /* InsertValue.swift */,
 			);
 			path = Insert;
 			sourceTree = "<group>";
@@ -215,6 +221,8 @@
 				0F18D24828CAC16B002E07E5 /* SyainnValueSample.swift in Sources */,
 				0F2702B028D1D00B00F7FC0C /* InsertViewController.swift in Sources */,
 				0F28005028C846C8000845C6 /* ViewController.swift in Sources */,
+				0F430C8028E05F27007E9465 /* InsertValue.swift in Sources */,
+				0F430C7E28DC741A007E9465 /* WebViewController.swift in Sources */,
 				0F2ADB4128DAEBFD009B708F /* Detail_InsertViewController.swift in Sources */,
 				0F378CE428CF320000816935 /* SyainnValue.swift in Sources */,
 				0F18D24528CAA4AD002E07E5 /* TableViewCell.swift in Sources */,
