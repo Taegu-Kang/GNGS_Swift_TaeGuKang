@@ -23,6 +23,7 @@
 		0F378CE428CF320000816935 /* SyainnValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F378CE328CF320000816935 /* SyainnValue.swift */; };
 		0F430C7E28DC741A007E9465 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F430C7D28DC741A007E9465 /* WebViewController.swift */; };
 		0F430C8028E05F27007E9465 /* InsertValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F430C7F28E05F27007E9465 /* InsertValue.swift */; };
+		0F430C8328E1824E007E9465 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F430C8228E1824E007E9465 /* WebKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		0F378CE328CF320000816935 /* SyainnValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyainnValue.swift; sourceTree = "<group>"; };
 		0F430C7D28DC741A007E9465 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		0F430C7F28E05F27007E9465 /* InsertValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertValue.swift; sourceTree = "<group>"; };
+		0F430C8228E1824E007E9465 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F430C8328E1824E007E9465 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +73,7 @@
 			children = (
 				0F28004A28C846C8000845C6 /* Prj03 */,
 				0F28004928C846C8000845C6 /* Products */,
+				0F430C8128E1824E007E9465 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -134,6 +138,14 @@
 				0F378CE328CF320000816935 /* SyainnValue.swift */,
 			);
 			path = CSV;
+			sourceTree = "<group>";
+		};
+		0F430C8128E1824E007E9465 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0F430C8228E1824E007E9465 /* WebKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		0FC1438C28CAF63900EFD7A1 /* Cell */ = {

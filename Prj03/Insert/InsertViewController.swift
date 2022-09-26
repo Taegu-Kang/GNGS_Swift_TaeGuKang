@@ -56,7 +56,19 @@ class InsertViewController: UIViewController {
     //alert
     var alert : UIAlertController = UIAlertController()
     
+    //
+    var selectingText : String = ""
+    var selectedPickerText : String = ""
     
+    //keyBoard
+    //var keyHeight : CGFloat?
+    
+    @IBOutlet weak var innerView: UIView!
+    
+    @IBAction func pickerAction(_ sender: Any) {
+        //.inputView したい
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,17 +76,18 @@ class InsertViewController: UIViewController {
         scrollView.contentSize = CGSize(width: formView.frame.width, height: formView.frame.height)
         
         //pickerView
-        syokuTextField.inputView = syokuPickerView
-        
+        syokuTextField.text = "学生"
         syokuTextField.tintColor = .clear
         syokuTextField.textAlignment = .center
         
-        syokuPickerView.delegate = self
-        syokuPickerView.dataSource = self
+        syokuTextField.inputView = syokuPickerView
         
-        syokuTextField.text = "学生"
+//        syokuPickerView.delegate = self
+//        syokuPickerView.dataSource = self
         
-
+        createPickerView()
+        dismissPickerView()
+        
         //checkBox default値
         checkBox.isSelected = false
         checkBox.setImage(checkBox.isSelected ? checkImage : noneCheckImage, for: .normal)
@@ -106,27 +119,65 @@ class InsertViewController: UIViewController {
         
     }
     
+    
     //
     @objc func dismissKeyboard() {
         self.view.endEditing(true)
     }
     @objc func keyboardWillShow(notification: NSNotification) {
-        if !memo.isFirstResponder {
-            return
+            
+        
+//        if !memo.isFirstResponder {
+//            return
+//        }
+//
+//        if self.view.frame.origin.y == 0 {
+//            if let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height {
+//                self.view.frame.origin.y -= (keyboardRect - 50)
+//
+//            }
+//        }
+        
+        let userInfo = notification.userInfo
+        let keyboardFrame = (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.height
+        self.scrollView.contentSize = CGSize(
+            width: self.scrollView.frame.width,
+            height: 750 + keyboardFrame
+        )
+        
+        if self.memo.isFirstResponder {
+            // 一番下に移動
+            let y = self.innerView.frame.height - self.scrollView.frame.height + 20 + keyboardFrame
+            self.scrollView.contentOffset = CGPoint(x: 0, y: y)
         }
         
-        if self.view.frame.origin.y == 0 {
-            if let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height {
-                self.view.frame.origin.y -= (keyboardRect - 50)
-            }
-        }
+        
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        if self.view.frame.origin.y != 0 {
+        /*if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
-        }
+        }*/
+        
+        self.scrollView.contentSize = CGSize(
+            width: self.scrollView.frame.width,
+            height: 900
+        )
     }
+    
+    //keyboard _ return key // 
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        let nextTag = textField.tag + 1
+        
+        if let nextResponder = textField.superview?.superview?.viewWithTag(nextTag) {
+            nextResponder.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
+        
+        return true
+    }
+    
     
     
     //checkBox Toggle
@@ -318,8 +369,6 @@ class InsertViewController: UIViewController {
     }
     
     
-    
-    
     /*
     // MARK: - Navigation
 
@@ -329,11 +378,30 @@ class InsertViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+    //pickerView button_ done　決定
+    @objc func done(_ sender : UIBarButtonItem) {
+        self.syokuTextField.text! =  selectingText
+        selectedPickerText = self.syokuTextField.text!
+        self.syokuTextField.endEditing(true)
+    }
+    //pickerView button_ cancel 取り消し
+    @objc func cancel() {
+        //window 閉める
+        syokuTextField.resignFirstResponder()
+        //textField 削除
+//      self.syokuTextField.text! = ""
+        self.syokuTextField.endEditing(true)
+        //        pickerView.selectRow(selectArrayRow, inComponent: 0, animated: true)
+    }
+    
+    
 }
 
 
 //UIPickerView 関連 (職業選ぶ)
-extension InsertViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+extension InsertViewController: UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -348,15 +416,33 @@ extension InsertViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        syokuTextField.text = syokuArr[row]
-        //syokuTextField.resignFirstResponder()
+        
+//        syokuTextField.text = syokuArr[row]
+        selectingText = syokuArr[row]
+//        syokuTextField.resignFirstResponder()
         //syokuTextField.isUserInteractionEnabled = false
     }
-
-}
-
-//入力制限　関連
-extension InsertViewController:UITextFieldDelegate {
+    
+    func createPickerView(){
+        let pickerView = UIPickerView()
+        pickerView.delegate = self
+        syokuTextField.inputView = pickerView
+    }
+    
+    func dismissPickerView() {
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
+        let button1 = UIBarButtonItem(title: "決定", style: .plain, target: self, action: #selector(self.done))
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let button2 = UIBarButtonItem(title: "キャンサル", style: .plain, target: self, action: #selector(self.cancel))
+        toolBar.setItems([button2, space, button1], animated: true)
+    
+        toolBar.isUserInteractionEnabled = true
+        syokuTextField.inputAccessoryView = toolBar
+    }
+    
+    
+    //入力制限　関連
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         print(string)
         
@@ -391,6 +477,11 @@ extension InsertViewController:UITextFieldDelegate {
         
         
     }
+    
+
 }
+
+
+
 
 
