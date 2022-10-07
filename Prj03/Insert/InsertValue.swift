@@ -11,7 +11,7 @@ struct InsertValue {
     
     var id = ""
     var syoku = ""
-    var gender = ""
+    var gender: Bool = true
     var mail_magazine : Bool = true
     var yakkann : Bool = true
     var memo : String = ""

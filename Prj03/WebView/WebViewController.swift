@@ -33,7 +33,9 @@ class WebViewController: UIViewController {
         forwardButton.setImage(forwardImage, for: .normal)
         refreshButton.setImage(relaodImage, for: .normal)
         
+        
     }
+    
     
     @IBAction func backAct(_ sender: Any) {
         if(self.webKit.canGoBack){

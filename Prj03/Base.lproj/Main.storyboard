@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="u0b-0y-YgK">
-    <device id="retina4_7" orientation="portrait" appearance="dark"/>
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -344,6 +344,9 @@
                                                         <rect key="frame" x="306" y="8" width="49" height="31"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                         <color key="onTintColor" systemColor="systemBlueColor"/>
+                                                        <connections>
+                                                            <action selector="switchAction:" destination="1hD-N4-Kek" eventType="valueChanged" id="pWn-w8-5qh"/>
+                                                        </connections>
                                                     </switch>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemGray5Color"/>
@@ -485,6 +488,7 @@
                         <outlet property="pw2" destination="jbP-e7-7Z0" id="fff-fu-31Q"/>
                         <outlet property="scrollView" destination="fBD-B0-PaP" id="ngh-aC-y8O"/>
                         <outlet property="syokuTextField" destination="oPX-xb-eXy" id="yQ6-sl-dAe"/>
+                        <outlet property="uiSwitch" destination="Bn7-67-t22" id="dRv-cv-HhH"/>
                         <segue destination="Irc-2h-Kz3" kind="showDetail" identifier="showInsertMember" id="4Wz-za-SXY"/>
                     </connections>
                 </viewController>

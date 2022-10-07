@@ -24,6 +24,9 @@ class InsertViewController: UIViewController {
     
     @IBOutlet weak var memo: UITextView!
     
+    //uiSwitch メールマガジン
+    @IBOutlet weak var uiSwitch: UISwitch!
+    var switchBool : Bool = true
     
     //validation check 項目
     var idValiFlag : Bool = false
@@ -50,7 +53,7 @@ class InsertViewController: UIViewController {
     
     //PickerView
     @IBOutlet weak var syokuTextField: UITextField!
-    let syokuArr = ["学生","社会人","主婦","公務員","その他"]
+    let syokuArr = ["平社員","主任","課長","部長","次長","代表"]
     var syokuPickerView = UIPickerView()
     
     //alert
@@ -76,7 +79,7 @@ class InsertViewController: UIViewController {
         scrollView.contentSize = CGSize(width: formView.frame.width, height: formView.frame.height)
         
         //pickerView
-        syokuTextField.text = "学生"
+        syokuTextField.text = "平社員"
         syokuTextField.tintColor = .clear
         syokuTextField.textAlignment = .center
         
@@ -179,6 +182,12 @@ class InsertViewController: UIViewController {
     }
     
     
+    //switch Toggle
+    @IBAction func switchAction(_ sender: Any) {
+        switchBool.toggle()
+        print("switch Bool :", switchBool)
+    }
+    
     
     //checkBox Toggle
     @IBAction func checkBoxAction(_ sender: UIButton) {
@@ -215,9 +224,9 @@ class InsertViewController: UIViewController {
     func idValidation() -> Bool {
         //空白チェック
         if id.text!.isEmpty, id.text! == "" {
-            alert = UIAlertController(title: "IDを入力してください。", message: "IDが空いております。\n 入力してください。", preferredStyle: UIAlertController.Style.alert)
+            alert = UIAlertController(title: "IDを入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
             
-            let idAlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
+            let idAlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
                 self.id.becomeFirstResponder()
             })
             
@@ -228,11 +237,13 @@ class InsertViewController: UIViewController {
             return false
         }
         //正規化チェック
-        if id.text!.range(of: "[A-Z0-9a-z._%+-]+@[A-Za-z]+.[A-Za-z]", options: .regularExpression) == nil{
+        //[0-9a-z._%+-]+@[a-z]+.[a-z]
+        //
+        if id.text!.range(of: "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}", options: .regularExpression) == nil{
            
-            alert = UIAlertController(title: "メールアドレスを入力してください。", message: "IDはメールアドレスです。", preferredStyle: UIAlertController.Style.alert)
+            alert = UIAlertController(title: "IDはメールアドレスです。\nメールアドレスを入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
             
-            let idAlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
+            let idAlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
                 self.id.becomeFirstResponder()
             })
             
@@ -252,9 +263,9 @@ class InsertViewController: UIViewController {
     func pwValidation() -> Bool {
         //空白チェック pw1
         if pw1.text!.isEmpty, pw1.text! == "" {
-            alert = UIAlertController(title: "", message: "パスワードが空いております。\n 入力してください。", preferredStyle: UIAlertController.Style.alert)
+            alert = UIAlertController(title: "パスワードを入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
             
-            let pw1AlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
+            let pw1AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
                 self.pw1.becomeFirstResponder()
             })
             
@@ -267,9 +278,9 @@ class InsertViewController: UIViewController {
         }
         //正規化チェック pw1
         if pw1.text!.range(of: "^.*(?=^.{8,15}$)(?=.*[0-9])(?=.*[a-zA-Z]).*$", options: .regularExpression) == nil{
-            alert = UIAlertController(title: "", message: "パスワードは小文字、大文字、数字を混ぜて８桁以上になります。", preferredStyle: UIAlertController.Style.alert)
+            alert = UIAlertController(title: "パスワードは小文字、大文字、\n数字を混ぜて８桁以上になります。", message: "", preferredStyle: UIAlertController.Style.alert)
             
-            let pw1AlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
+            let pw1AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
                 self.pw1.becomeFirstResponder()
             })
             
@@ -280,9 +291,9 @@ class InsertViewController: UIViewController {
         }
         //空白チェック pw2
         if pw2.text!.isEmpty, pw2.text! == "" {
-            alert = UIAlertController(title: "", message: "パスワード(再入力)が空いております。\n 入力してください。", preferredStyle: UIAlertController.Style.alert)
+            alert = UIAlertController(title: "パスワード(再入力)を入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
             
-            let pw2AlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
+            let pw2AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
                 self.pw2.becomeFirstResponder()
             })
             
@@ -294,9 +305,9 @@ class InsertViewController: UIViewController {
         }
         //pw1,pw2 一致性チェック
         if pw1.text! != pw2.text! {
-            alert = UIAlertController(title: "", message: "パスワード(再入力)とパスワードが一致しません。", preferredStyle: UIAlertController.Style.alert)
+            alert = UIAlertController(title: "パスワード(再入力)とパスワードが一致しません。", message: "", preferredStyle: UIAlertController.Style.alert)
             
-            let pw2AlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
+            let pw2AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
                 self.pw2.becomeFirstResponder()
             })
             
@@ -313,9 +324,9 @@ class InsertViewController: UIViewController {
     func yakkannCheck() -> Bool {
         //約款checkBoxBool チェック
         if !checkBoxBool {
-            alert = UIAlertController(title: "", message: "約款に同意してください。", preferredStyle: UIAlertController.Style.alert)
+            alert = UIAlertController(title: "約款に同意してください。", message: "", preferredStyle: UIAlertController.Style.alert)
             
-            let yakkannAlertAction : UIAlertAction = UIAlertAction(title: "直す", style: UIAlertAction.Style.default, handler: { _ in
+            let yakkannAlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
                 self.checkBox.becomeFirstResponder()
             })
             
@@ -348,10 +359,11 @@ class InsertViewController: UIViewController {
         
         if(idValiFlag && pwValiFlag && yakkannCheckFlag ){
             print("All PASS")
+            //入力したデータ
+            insertValue = InsertValue(id: id.text!, syoku: syokuTextField.text!,
+            gender: maleBool, mail_magazine: switchBool, yakkann: true, memo: memo.text!)
             
-            insertValue = InsertValue(id: id.text!, syoku: syokuTextField.text!, gender: "male", mail_magazine: true, yakkann: true, memo: memo.text!)
-            
-            //flag check func _ flag 1,2,3 check -> OK -> 登録完了、確認画面に遷移
+            //flag check func _ flag 1,2,3 check -> OK -> 登録完了、確認画面に移動
             self.performSegue(withIdentifier: "showInsertMember", sender: nil)
         }
     }

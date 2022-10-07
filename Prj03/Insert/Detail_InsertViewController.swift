@@ -27,8 +27,6 @@ class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITabl
         
         prepareCon()
         
-        
-
         // Do any additional setup after loading the view.
     }
     
@@ -73,7 +71,7 @@ class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITabl
     func prepareCon() {
         detailContext.append(insertValue.id)
         detailContext.append(insertValue.syoku)
-        if(insertValue.gender == "male"){
+        if(insertValue.gender){
             detailContext.append("男性")
         }else{
             detailContext.append("女性")
@@ -88,8 +86,12 @@ class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITabl
         }else{
             detailContext.append("非同義")
         }
-        detailContext.append(insertValue.memo)
-        
+        if(insertValue.memo == ""){
+            detailContext.append("なし")
+        }else{
+            detailContext.append(insertValue.memo)
+
+        }
     }
     
 
