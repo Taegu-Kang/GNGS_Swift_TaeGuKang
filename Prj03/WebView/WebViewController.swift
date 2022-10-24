@@ -33,18 +33,42 @@ class WebViewController: UIViewController {
         forwardButton.setImage(forwardImage, for: .normal)
         refreshButton.setImage(relaodImage, for: .normal)
         
+        backButton.tintColor =
+        (webKit.canGoBack ? UIColor.blue : UIColor.gray)
+
+        forwardButton.tintColor =
+        (webKit.canGoForward ? UIColor.blue : UIColor.gray)
         
     }
     
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(true)
+//    }
     
     @IBAction func backAct(_ sender: Any) {
         if(self.webKit.canGoBack){
             self.webKit.goBack()
+            backButton.tintColor = UIColor.blue
+        }else{
+            backButton.tintColor = UIColor.gray
+        }
+        if(self.webKit.canGoForward){
+            forwardButton.tintColor = UIColor.blue
+        }else{
+            forwardButton.tintColor = UIColor.gray
         }
     }
     @IBAction func forwardAct(_ sender: Any) {
         if(self.webKit.canGoForward){
             self.webKit.goForward()
+            forwardButton.tintColor = UIColor.blue
+        }else{
+            forwardButton.tintColor = UIColor.gray
+        }
+        if(self.webKit.canGoBack){
+            backButton.tintColor = UIColor.blue
+        }else{
+            backButton.tintColor = UIColor.gray
         }
     }
     @IBAction func refreshAct(_ sender: Any) {

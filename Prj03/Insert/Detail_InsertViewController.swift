@@ -53,6 +53,12 @@ class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITabl
         let label2 = cell.contentView.viewWithTag(2) as! UILabel
        
         label1.text = detailTitle[indexPath.item]
+        
+//        if(detailContext.array){
+//
+//        }
+        
+        
         label2.text = detailContext[indexPath.item]
         
         
@@ -77,9 +83,9 @@ class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITabl
             detailContext.append("女性")
         }
         if(insertValue.mail_magazine){
-            detailContext.append("同義")
+            detailContext.append("許可")
         }else{
-            detailContext.append("非同義")
+            detailContext.append("却下")
         }
         if(insertValue.yakkann){
             detailContext.append("同義")

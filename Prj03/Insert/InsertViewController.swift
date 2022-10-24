@@ -17,7 +17,7 @@ class InsertViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var formView: UIView!
     
-    //member 変数
+    //member 変
     @IBOutlet weak var id: UITextField!
     @IBOutlet weak var pw1: UITextField!
     @IBOutlet weak var pw2: UITextField!
@@ -278,7 +278,7 @@ class InsertViewController: UIViewController {
         }
         //正規化チェック pw1
         if pw1.text!.range(of: "^.*(?=^.{8,15}$)(?=.*[0-9])(?=.*[a-zA-Z]).*$", options: .regularExpression) == nil{
-            alert = UIAlertController(title: "パスワードは小文字、大文字、\n数字を混ぜて８桁以上になります。", message: "", preferredStyle: UIAlertController.Style.alert)
+            alert = UIAlertController(title: "パスワードは英文字、\n数字を混ぜて８桁以上になります。", message: "", preferredStyle: UIAlertController.Style.alert)
             
             let pw1AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
                 self.pw1.becomeFirstResponder()
@@ -362,6 +362,8 @@ class InsertViewController: UIViewController {
             //入力したデータ
             insertValue = InsertValue(id: id.text!, syoku: syokuTextField.text!,
             gender: maleBool, mail_magazine: switchBool, yakkann: true, memo: memo.text!)
+            
+            print(memo.text!)
             
             //flag check func _ flag 1,2,3 check -> OK -> 登録完了、確認画面に移動
             self.performSegue(withIdentifier: "showInsertMember", sender: nil)
