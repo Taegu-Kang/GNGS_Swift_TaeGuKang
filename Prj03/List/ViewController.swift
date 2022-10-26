@@ -92,6 +92,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
+    
     //func for CSVdata into cssArr[]
     func loadCSV(fileName: String) -> [String] {
           let csvBundle = Bundle.main.path(forResource: fileName, ofType: "csv")!
@@ -119,8 +120,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //            let item = SyainnValueSample(syaNum: str+"\(numInt)", name: "加藤", yaku: "社員", syozoku: "第１チーム")
 //            self.dataArr.append(item)
 //        }
-        
-        
     //func for csvArr[].seperated -> dataArr[].append
         for numInt in 0...csvArr.count-1 {
             var arr:[String] = []
@@ -130,6 +129,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.dataArr.append(item)
         }
     }
+    
     
     //for DetailViewCell
     func loadData2(){
@@ -141,9 +141,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             self.detailArr.append(syainn)
         }
-        
     }
     
-
-
 }

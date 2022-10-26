@@ -15,16 +15,36 @@ class LoginViewController: UIViewController {
     var database = Database()
     var datas = [User]()
     
+    
+    //About csv -------
+    //csv用の Arrayを用意します。
+    var csvArr: [String] = []
+    
+    
+    var dataArr: [User] = []
+    
+    // ----------------
+    
+    
     //login button
     @IBAction func loginAction(_ sender: UIButton) {
-        //初期化ログイン
         
-        //
+        //空白チェック
         guard idValidation() else { return }
         guard pwValidation() else { return }
-        guard loginCheck() else { return }
-        self.performSegue(withIdentifier: "showListMember", sender: nil)
         
+        let idA:String = id.text!
+        let pwA:String = pw.text!
+        
+        var row:Int = 3
+        row = database.Login(id: String, pw: String)
+        
+        
+        //ログイン
+        //guard loginCheck() else { return }
+        
+        //segue
+        self.performSegue(withIdentifier: "showListMember", sender: nil)
         
     }
     
@@ -33,10 +53,52 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
+        database.openDB()
+        
+        loadDataCheck()
+
+        
+        
         
         // Do any additional setup after loading the view.
     }
+    
+    
+    //データチェック
+    func loadDataCheck() {
+        var data_row:Int = 3
+        data_row = database.dataCheck()
+        
+        if(data_row == 0 ){
+            //データがい無い時
+            database.createTable()
+            csvArr = loadCSV(fileName: "dataList2")
+            loadData()
+            database.insertCSV(userArr: dataArr)
+            
+            print("「RELOADED FROM CSV FILE」")
+        }
+    }
+    
+    
+
+    //初期化ログイン csv, (+ drop table, create table )
+    func initializeDB() -> Bool {
+        if id.text! == "admin" && pw.text! == "gngs1234" {
+            //drop table
+            
+            //create table
+            
+            //csv -> DB
+            
+            
+            return false
+        }
+        return true
+    }
+    
+ 
     
     //id
     func idValidation() -> Bool {
@@ -76,41 +138,42 @@ class LoginViewController: UIViewController {
         }
         return true
     }
-    
-    func loginCheck() -> Bool {
-        datas = database.userDatastore.findById(id: id.text!)
-        let result: String? = datas.last?.pw
-        print(result as Any)
-        if result == nil {
-            print("IDが無し")
-            alert = UIAlertController(title: "ユーザIDが一致しません。", message: "", preferredStyle: UIAlertController.Style.alert)
-            
-            let pw1AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
-                self.pw.becomeFirstResponder()
-            })
-            
-            alert.addAction(pw1AlertAction)
-            
-            self.present(alert, animated: false, completion: nil)
-            
-            return false
-        }
-        if(result != pw.text!){
-            print("pwを間違い")
-            alert = UIAlertController(title: "パスワードが一致しません。", message: "", preferredStyle: UIAlertController.Style.alert)
-            
-            let pw1AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
-                self.pw.becomeFirstResponder()
-            })
-            
-            alert.addAction(pw1AlertAction)
-            
-            self.present(alert, animated: false, completion: nil)
-            
-            return false
-        }
-        return true
-    }
+  
+///////////
+//    func loginCheck() -> Bool {
+//        datas = database.userDatastore.findById(id: id.text!)
+//        let result: String? = datas.last?.pw
+//        print(result as Any)
+//        if result == nil {
+//            print("IDが無し")
+//            alert = UIAlertController(title: "ユーザIDが一致しません。", message: "", preferredStyle: UIAlertController.Style.alert)
+//
+//            let pw1AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
+//                self.pw.becomeFirstResponder()
+//            })
+//
+//            alert.addAction(pw1AlertAction)
+//
+//            self.present(alert, animated: false, completion: nil)
+//
+//            return false
+//        }
+//        if(result != pw.text!){
+//            print("pwを間違い")
+//            alert = UIAlertController(title: "パスワードが一致しません。", message: "", preferredStyle: UIAlertController.Style.alert)
+//
+//            let pw1AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
+//                self.pw.becomeFirstResponder()
+//            })
+//
+//            alert.addAction(pw1AlertAction)
+//
+//            self.present(alert, animated: false, completion: nil)
+//
+//            return false
+//        }
+//        return true
+//    }
     
     
 
@@ -123,5 +186,57 @@ class LoginViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+    
+    
+    
+    //func for CSVdata into cssArr[]
+    func loadCSV(fileName: String) -> [String] {
+          let csvBundle = Bundle.main.path(forResource: fileName, ofType: "csv")!
+        do {
+            let csvData = try String(contentsOfFile: csvBundle, encoding: String.Encoding.utf8)
+          
+//            let lineChange = csvData.replacingOccurrences(of: "\r\n", with: "\n").replacingOccurrences(of: "\r", with: "\n")
+//            csvArr = lineChange.components(separatedBy: "\n")
+            
+            csvArr = csvData
+                .replacingOccurrences(of: "\r\n", with: "\n")
+                .replacingOccurrences(of: "\r", with: "\n")
+                .components(separatedBy: "\n")
+
+            csvArr.removeLast()
+        } catch {
+            print("エラー　loadCSV func 関連　")
+        }
+        return csvArr
+    }
+    
+    func loadData(){
+        //reset
+        self.dataArr.removeAll()
+        
+    //func for csvArr[].seperated -> dataArr[].append
+        for numInt in 0...csvArr.count-1 {
+            var arr:[String] = []
+            arr = csvArr[numInt].description.components(separatedBy: ",")
+        
+//          let aaa = arr[7] == nil ? 1 : Int8(arr[7]) ?? 1
+            
+            var gen: Int8 = 3
+            if(arr[7] == "1"){
+                gen = 1
+            }else{
+                gen = 0
+            }
+            
+            let team = Int8(arr[9])!
+        
+            let item = User(USER_NUM: arr[0], USER_ID: arr[1], USER_PASS: arr[2], NAME_KZ: arr[3], NAME_KANA: arr[4], NAME_ENG: arr[5], TELL: arr[6], GENDER: gen, POSITION: 1, TEAM: team, MAGAZINE: 0, INSERT_DATE: arr[10])
+
+            self.dataArr.append(item)
+        }
+    }
+    
 
 }

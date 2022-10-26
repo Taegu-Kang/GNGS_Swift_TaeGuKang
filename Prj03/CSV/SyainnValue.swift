@@ -20,9 +20,6 @@ class SyainnValue : ObservableObject {
     var phoneNum : String
     
     
-    
-    
-    
     init(syaNum:String, name: String, nameKana:String , nameEng: String, yaku : String, syozoku : String, mail : String, phoneNum : String) {
         self.syaNum = syaNum
         self.name = name

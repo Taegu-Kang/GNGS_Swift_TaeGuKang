@@ -10,6 +10,7 @@
 		0F18D24328CA9F36002E07E5 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F18D24228CA9F36002E07E5 /* TableViewCell.xib */; };
 		0F18D24528CAA4AD002E07E5 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F18D24428CAA4AD002E07E5 /* TableViewCell.swift */; };
 		0F18D24828CAC16B002E07E5 /* SyainnValueSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F18D24728CAC16B002E07E5 /* SyainnValueSample.swift */; };
+		0F195C45290907690032C756 /* dataList2.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0F195C44290907690032C756 /* dataList2.csv */; };
 		0F199F8528D085CB006ED876 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F199F8428D085CB006ED876 /* DetailViewController.swift */; };
 		0F2702B028D1D00B00F7FC0C /* InsertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F2702AF28D1D00B00F7FC0C /* InsertViewController.swift */; };
 		0F28004C28C846C8000845C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F28004B28C846C8000845C6 /* AppDelegate.swift */; };
@@ -19,13 +20,11 @@
 		0F28005528C846C9000845C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F28005428C846C9000845C6 /* Assets.xcassets */; };
 		0F28005828C846C9000845C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F28005628C846C9000845C6 /* LaunchScreen.storyboard */; };
 		0F2ADB4128DAEBFD009B708F /* Detail_InsertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F2ADB4028DAEBFD009B708F /* Detail_InsertViewController.swift */; };
-		0F378CE228CEF79000816935 /* dataList.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0F378CE128CEF79000816935 /* dataList.csv */; };
 		0F378CE428CF320000816935 /* SyainnValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F378CE328CF320000816935 /* SyainnValue.swift */; };
 		0F430C7E28DC741A007E9465 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F430C7D28DC741A007E9465 /* WebViewController.swift */; };
 		0F430C8028E05F27007E9465 /* InsertValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F430C7F28E05F27007E9465 /* InsertValue.swift */; };
 		0F430C8328E1824E007E9465 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F430C8228E1824E007E9465 /* WebKit.framework */; };
-		0F4C62FD2900C9B5003FCAE2 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 0F4C62FC2900C9B5003FCAE2 /* SQLite */; };
-		0F4C63002900CB6E003FCAE2 /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4C62FF2900CB6E003FCAE2 /* DataBase.swift */; };
+		0F4C63002900CB6E003FCAE2 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F4C62FF2900CB6E003FCAE2 /* Database.swift */; };
 		0F988A7F28FE427D006370A5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F988A7E28FE427D006370A5 /* LoginViewController.swift */; };
 		0F988A8328FE446F006370A5 /* G&GServiceLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F988A8228FE446F006370A5 /* G&GServiceLogo.png */; };
 		0FA175BE2901942F00BD6B89 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA175BD2901942F00BD6B89 /* User.swift */; };
@@ -35,6 +34,7 @@
 		0F18D24228CA9F36002E07E5 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		0F18D24428CAA4AD002E07E5 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		0F18D24728CAC16B002E07E5 /* SyainnValueSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyainnValueSample.swift; sourceTree = "<group>"; };
+		0F195C44290907690032C756 /* dataList2.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dataList2.csv; sourceTree = "<group>"; };
 		0F199F8428D085CB006ED876 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		0F2702AF28D1D00B00F7FC0C /* InsertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertViewController.swift; sourceTree = "<group>"; };
 		0F28004828C846C8000845C6 /* Prj03.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Prj03.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -46,12 +46,11 @@
 		0F28005728C846C9000845C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0F28005928C846C9000845C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0F2ADB4028DAEBFD009B708F /* Detail_InsertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Detail_InsertViewController.swift; sourceTree = "<group>"; };
-		0F378CE128CEF79000816935 /* dataList.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = dataList.csv; sourceTree = "<group>"; };
 		0F378CE328CF320000816935 /* SyainnValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyainnValue.swift; sourceTree = "<group>"; };
 		0F430C7D28DC741A007E9465 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		0F430C7F28E05F27007E9465 /* InsertValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertValue.swift; sourceTree = "<group>"; };
 		0F430C8228E1824E007E9465 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		0F4C62FF2900CB6E003FCAE2 /* DataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
+		0F4C62FF2900CB6E003FCAE2 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		0F988A7E28FE427D006370A5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		0F988A8228FE446F006370A5 /* G&GServiceLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "G&GServiceLogo.png"; sourceTree = "<group>"; };
 		0FA175BD2901942F00BD6B89 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -62,7 +61,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F4C62FD2900C9B5003FCAE2 /* SQLite in Frameworks */,
 				0F430C8328E1824E007E9465 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -146,7 +144,7 @@
 		0F28006228C871EC000845C6 /* CSV */ = {
 			isa = PBXGroup;
 			children = (
-				0F378CE128CEF79000816935 /* dataList.csv */,
+				0F195C44290907690032C756 /* dataList2.csv */,
 				0F378CE328CF320000816935 /* SyainnValue.swift */,
 			);
 			path = CSV;
@@ -163,7 +161,7 @@
 		0F4C62FE2900CB4C003FCAE2 /* DB */ = {
 			isa = PBXGroup;
 			children = (
-				0F4C62FF2900CB6E003FCAE2 /* DataBase.swift */,
+				0F4C62FF2900CB6E003FCAE2 /* Database.swift */,
 				0FA175BD2901942F00BD6B89 /* User.swift */,
 			);
 			path = DB;
@@ -204,7 +202,6 @@
 			);
 			name = Prj03;
 			packageProductDependencies = (
-				0F4C62FC2900C9B5003FCAE2 /* SQLite */,
 			);
 			productName = Prj03;
 			productReference = 0F28004828C846C8000845C6 /* Prj03.app */;
@@ -235,7 +232,6 @@
 			);
 			mainGroup = 0F28003F28C846C8000845C6;
 			packageReferences = (
-				0F4C62FB2900C9B5003FCAE2 /* XCRemoteSwiftPackageReference "SQLite.swift" */,
 			);
 			productRefGroup = 0F28004928C846C8000845C6 /* Products */;
 			projectDirPath = "";
@@ -253,8 +249,8 @@
 			files = (
 				0F28005828C846C9000845C6 /* LaunchScreen.storyboard in Resources */,
 				0F988A8328FE446F006370A5 /* G&GServiceLogo.png in Resources */,
-				0F378CE228CEF79000816935 /* dataList.csv in Resources */,
 				0F18D24328CA9F36002E07E5 /* TableViewCell.xib in Resources */,
+				0F195C45290907690032C756 /* dataList2.csv in Resources */,
 				0F28005528C846C9000845C6 /* Assets.xcassets in Resources */,
 				0F28005328C846C8000845C6 /* Main.storyboard in Resources */,
 			);
@@ -269,7 +265,7 @@
 			files = (
 				0F988A7F28FE427D006370A5 /* LoginViewController.swift in Sources */,
 				0F18D24828CAC16B002E07E5 /* SyainnValueSample.swift in Sources */,
-				0F4C63002900CB6E003FCAE2 /* DataBase.swift in Sources */,
+				0F4C63002900CB6E003FCAE2 /* Database.swift in Sources */,
 				0F2702B028D1D00B00F7FC0C /* InsertViewController.swift in Sources */,
 				0F28005028C846C8000845C6 /* ViewController.swift in Sources */,
 				0F430C8028E05F27007E9465 /* InsertValue.swift in Sources */,
@@ -498,25 +494,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		0F4C62FB2900C9B5003FCAE2 /* XCRemoteSwiftPackageReference "SQLite.swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/stephencelis/SQLite.swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.9.2;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		0F4C62FC2900C9B5003FCAE2 /* SQLite */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0F4C62FB2900C9B5003FCAE2 /* XCRemoteSwiftPackageReference "SQLite.swift" */;
-			productName = SQLite;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0F28004028C846C8000845C6 /* Project object */;
 }
