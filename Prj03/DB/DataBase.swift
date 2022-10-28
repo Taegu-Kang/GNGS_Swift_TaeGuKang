@@ -52,7 +52,9 @@ class Database {
 //            }else{arr[x].GENDER = "0"
 //            }
             
-            let queryString = "INSERT INTO USER_TABLE (USER_NUM, USER_ID, USER_PASS, NAME_KZ, NAME_KANA, NAME_ENG,  TELL, GENDER , POSITION , TEAM , MAGAZINE, INSERT_DATE) VALUES ('\(userArr[x].USER_NUM)','\(userArr[x].USER_ID)','\(userArr[x].USER_PASS)','\(userArr[x].NAME_KZ)','\(userArr[x].NAME_KANA)','\(userArr[x].NAME_ENG)','\(userArr[x].TELL)','\(userArr[x].GENDER)','\(userArr[x].POSITION)',\(userArr[x].TEAM),\(userArr[x].MAGAZINE),\(userArr[x].INSERT_DATE))"
+            let queryString = "INSERT INTO USER_TABLE (USER_NUM, USER_ID, USER_PASS, NAME_KZ, NAME_KANA, NAME_ENG,  TELL, GENDER , POSITION , TEAM , MAGAZINE, INSERT_DATE) VALUES ('\(userArr[x].USER_NUM)','\(userArr[x].USER_ID)','\(userArr[x].USER_PASS)','\(userArr[x].NAME_KZ)','\(userArr[x].NAME_KANA)','\(userArr[x].NAME_ENG)','\(userArr[x].TELL)','\(userArr[x].GENDER)','\(userArr[x].POSITION)',\(userArr[x].TEAM),\(userArr[x].MAGAZINE),'\(userArr[x].INSERT_DATE)')"
+            
+            print("query :" + queryString)
             
             // クエリを準備する
             if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK{
@@ -70,13 +72,12 @@ class Database {
         print("データが登録されました")
     }
     
-    
     //Login _ Select
-    func Login(id:String, pw:String)-> Int{
+    func login(id:String, pw:String)-> Int{
         let queryString = "SELECT * FROM USER_TABLE WHERE USER_ID='\(id)'"
         
         var stmt:OpaquePointer?
-        var row:Int = 0
+        var flag:Int = 0
         
         // クエリを準備する
         if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK{
@@ -85,8 +86,9 @@ class Database {
         }
         // クエリを実行し、取得したレコードをループする
         if(sqlite3_step(stmt) == SQLITE_ROW){
-            let queryString = "SELECT * FROM USER_TABLE WHERE USER_PASS='\(pw)'"
+            flag = 1
             
+            let queryString = "SELECT * FROM USER_TABLE WHERE USER_PASS='\(pw)'"
             // クエリを準備する
             if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK{
                 let errmsg = String(cString: sqlite3_errmsg(db)!)
@@ -95,12 +97,14 @@ class Database {
             
             // クエリを実行し、取得したレコードをループする
             if(sqlite3_step(stmt) == SQLITE_ROW){
-                row = 1
+                flag = 2
+            }else{
+                flag = -2
             }
         }else{
-            row = -1
+            flag = -1
         }
-        return row
+        return flag
     }
     
     
@@ -110,23 +114,63 @@ class Database {
         let queryString = "SELECT * FROM USER_TABLE"
         
         var stmt:OpaquePointer?
-        var row:Int = 0
+        var flag:Int = 0
 
         // クエリを準備する
         if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK{
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             print("error preparing insert: \(errmsg)")
-            return row
+            return flag
         }
         // クエリを実行し、取得したレコードをループする
         if(sqlite3_step(stmt) == SQLITE_ROW){
-            row = 1
+            flag = 1
         }
-        return row
+        return flag
     }
     
     
+    //社員一覧、select
+    func selectAll()->[User]{
+        let queryString = "SELECT * FROM USER_TABLE"
+        
+        var stmt:OpaquePointer?
+        
+        var userArr: [User] = []
+        
+        //var num:Int = 0
+        
+        // クエリを準備する
+        if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK{
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("error preparing insert: \(errmsg)")
+            return userArr
+        }
+        // クエリを実行し、取得したレコードをループする
+        while(sqlite3_step(stmt) == SQLITE_ROW){
+            let user_num = String(cString: sqlite3_column_text(stmt, 0))
+     /*id*/ let user_id:String = String(cString: sqlite3_column_text(stmt, 1))
+     /*pw*/
+            let kz = String(cString: sqlite3_column_text(stmt, 3))
+            let kana  = String(cString: sqlite3_column_text(stmt, 4))
+            let eng  = String(cString: sqlite3_column_text(stmt, 5))
+            let tell  = String(cString: sqlite3_column_text(stmt, 6))
+            let gen  = Int8(sqlite3_column_int(stmt, 7))
+            let posi  = Int8(sqlite3_column_int(stmt, 8))
+            let team  = Int8(sqlite3_column_int(stmt, 9))
+            let mgz  = Int8(sqlite3_column_int(stmt, 10))
+            //let memo  = String(cString: sqlite3_column_text(stmt, 11))
+            
+            let item = User(USER_NUM: user_num, USER_ID: user_id, USER_PASS: "", NAME_KZ: kz, NAME_KANA: kana, NAME_ENG: eng, TELL: tell, GENDER: gen, POSITION: posi, TEAM: team, MAGAZINE: mgz, MEMO: "", INSERT_DATE: "")
+
+            userArr.append(item)
+            
+            //num+=1
+        }
+        return userArr
+    }
     
+
     //select TEST
     func select(){
         let queryString = "SELECT * FROM USER_TABLE WHERE USER_NUM=''"

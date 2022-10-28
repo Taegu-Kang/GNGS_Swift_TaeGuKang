@@ -26,25 +26,26 @@ class LoginViewController: UIViewController {
     // ----------------
     
     
-    //login button
+    //LOGIN BUTTON
     @IBAction func loginAction(_ sender: UIButton) {
-        
         //空白チェック
         guard idValidation() else { return }
         guard pwValidation() else { return }
         
         let idA:String = id.text!
         let pwA:String = pw.text!
-        
-        var row:Int = 3
-        row = database.Login(id: String, pw: String)
-        
+
+        //Login Flag
+        var flag:Int = 10//初期値
+        flag = database.login(id: idA, pw: pwA)
+        print("Login_flag :", flag)
         
         //ログイン
-        //guard loginCheck() else { return }
+        guard loginCheck(flag: flag) else { return }
         
         //segue
         self.performSegue(withIdentifier: "showListMember", sender: nil)
+        
         
     }
     
@@ -58,19 +59,16 @@ class LoginViewController: UIViewController {
         
         loadDataCheck()
 
-        
-        
-        
         // Do any additional setup after loading the view.
     }
     
     
     //データチェック
     func loadDataCheck() {
-        var data_row:Int = 3
-        data_row = database.dataCheck()
+        var data_flag:Int = 3
+        data_flag = database.dataCheck()
         
-        if(data_row == 0 ){
+        if(data_flag == 0 ){
             //データがい無い時
             database.createTable()
             csvArr = loadCSV(fileName: "dataList2")
@@ -92,19 +90,16 @@ class LoginViewController: UIViewController {
             
             //csv -> DB
             
-            
             return false
         }
         return true
     }
     
- 
-    
     //id
     func idValidation() -> Bool {
         //空白チェック
         if id.text!.isEmpty, id.text! == "" {
-            alert = UIAlertController(title: "ユーザIDを入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
+            alert = UIAlertController(title: "アカウントを入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
 
             let idAlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
                 self.id.becomeFirstResponder()
@@ -139,41 +134,38 @@ class LoginViewController: UIViewController {
         return true
     }
   
-///////////
-//    func loginCheck() -> Bool {
-//        datas = database.userDatastore.findById(id: id.text!)
-//        let result: String? = datas.last?.pw
-//        print(result as Any)
-//        if result == nil {
-//            print("IDが無し")
-//            alert = UIAlertController(title: "ユーザIDが一致しません。", message: "", preferredStyle: UIAlertController.Style.alert)
-//
-//            let pw1AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
-//                self.pw.becomeFirstResponder()
-//            })
-//
-//            alert.addAction(pw1AlertAction)
-//
-//            self.present(alert, animated: false, completion: nil)
-//
-//            return false
-//        }
-//        if(result != pw.text!){
-//            print("pwを間違い")
-//            alert = UIAlertController(title: "パスワードが一致しません。", message: "", preferredStyle: UIAlertController.Style.alert)
-//
-//            let pw1AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
-//                self.pw.becomeFirstResponder()
-//            })
-//
-//            alert.addAction(pw1AlertAction)
-//
-//            self.present(alert, animated: false, completion: nil)
-//
-//            return false
-//        }
-//        return true
-//    }
+    //
+    func loginCheck(flag: Int) -> Bool {
+        if( flag == -1 ){
+            print("IDが無し\n")
+            alert = UIAlertController(title: "アカウントを確認できません。\n もう一と確認してください。", message: "", preferredStyle: UIAlertController.Style.alert)
+
+            let pw1AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
+                self.pw.becomeFirstResponder()
+            })
+
+            alert.addAction(pw1AlertAction)
+
+            self.present(alert, animated: false, completion: nil)
+
+            return false
+        }
+        if( flag == -2 ){
+            print("pwを間違い\n")
+            alert = UIAlertController(title: "パスワードが違います。\n もう一と確認してください。", message: "", preferredStyle: UIAlertController.Style.alert)
+
+            let pw1AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
+                self.pw.becomeFirstResponder()
+            })
+
+            alert.addAction(pw1AlertAction)
+
+            self.present(alert, animated: false, completion: nil)
+
+            return false
+        }
+        return true
+    }
     
     
 
@@ -186,9 +178,6 @@ class LoginViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    
-    
-    
     
     
     //func for CSVdata into cssArr[]
@@ -231,8 +220,10 @@ class LoginViewController: UIViewController {
             }
             
             let team = Int8(arr[9])!
-        
-            let item = User(USER_NUM: arr[0], USER_ID: arr[1], USER_PASS: arr[2], NAME_KZ: arr[3], NAME_KANA: arr[4], NAME_ENG: arr[5], TELL: arr[6], GENDER: gen, POSITION: 1, TEAM: team, MAGAZINE: 0, INSERT_DATE: arr[10])
+            
+            print("CSV :" + arr[10])
+            
+            let item = User(USER_NUM: arr[0], USER_ID: arr[1], USER_PASS: arr[2], NAME_KZ: arr[3], NAME_KANA: arr[4], NAME_ENG: arr[5], TELL: arr[6], GENDER: gen, POSITION: 1, TEAM: team, MAGAZINE: 0, MEMO: "", INSERT_DATE: arr[10])
 
             self.dataArr.append(item)
         }

@@ -19,6 +19,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //csv用の Arrayを用意します。
       var csvArr: [String] = []
     
+    //DB
+    var database = Database()
+    //
+    var dbArr: [User] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,11 +36,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //      self.view.addSubview(self.tableView)
 //
 
-        csvArr = loadCSV(fileName: "dataList")
-//      print(csvArr)
+        //CSV読み込む
+//        csvArr = loadCSV(fileName: "dataList")
+//        loadData()
+//        loadData2()
+        
+        
+        // DB -> dataArr 
+        database.openDB()
+        dbArr = database.selectAll()
         
         loadData()
-        loadData2()
+        
         
     }
     
@@ -121,16 +133,54 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //            self.dataArr.append(item)
 //        }
     //func for csvArr[].seperated -> dataArr[].append
-        for numInt in 0...csvArr.count-1 {
-            var arr:[String] = []
-            arr = csvArr[numInt].description.components(separatedBy: ",")
-            let item = SyainnValueSample(syaNum: arr[0], name: arr[1], yaku: arr[4], syozoku: arr[6])
+        for numInt in 0...dbArr.count-1 {
+            var user: User
+            user = dbArr[numInt]
+            
+           var posi:String = ""
+            switch user.POSITION {
+            case 1:
+                posi = "平社員"
+            case 2:
+                posi = "主任"
+            case 3:
+                posi = "課長"
+            case 4:
+                posi = "部長"
+            case 5:
+                posi = "次長"
+            case 6:
+                posi = "部長"
+            default:
+                posi = "平社員"
+            }
+            
+            var team:String = ""
+            switch user.TEAM {
+            case 1:
+                team = "第１チーム"
+            case 2:
+                team = "第2チーム"
+            case 3:
+                team = "第3チーム"
+            case 4:
+                team = "第4チーム"
+            default:
+                team = "第１チーム"
+            }
+
+            let item = SyainnValueSample(syaNum: user.USER_NUM, name: user.NAME_KZ, yaku: posi, syozoku: team)
             
             self.dataArr.append(item)
         }
     }
     
     
+    
+    
+    
+    
+    //社員情報
     //for DetailViewCell
     func loadData2(){
         for numInt in 0...csvArr.count-1 {
@@ -142,5 +192,4 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.detailArr.append(syainn)
         }
     }
-    
 }

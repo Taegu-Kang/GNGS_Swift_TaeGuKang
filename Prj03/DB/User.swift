@@ -9,20 +9,20 @@ import Foundation
 
 class User {
     
-    let USER_NUM: String
-    let USER_ID: String
-    let USER_PASS: String
-    let NAME_KZ: String
-    let NAME_KANA: String
-    let NAME_ENG: String
-    let TELL: String
-    let GENDER: Int8
-    let POSITION: Int8
-    let TEAM: Int8
-    let MAGAZINE: Int8
-    //    let MEMO: String?
-    let INSERT_DATE: String
-    //    let UPDATE_DATE: String?
+    var USER_NUM: String
+    var USER_ID: String
+    var USER_PASS: String
+    var NAME_KZ: String
+    var NAME_KANA: String
+    var NAME_ENG: String
+    var TELL: String
+    var GENDER: Int8
+    var POSITION: Int8
+    var TEAM: Int8
+    var MAGAZINE: Int8
+    var MEMO: String
+    var INSERT_DATE: String
+    //    var UPDATE_DATE: String?
     
     init( USER_NUM: String,
           USER_ID: String,
@@ -35,7 +35,7 @@ class User {
                     POSITION: Int8,
                     TEAM: Int8,
                     MAGAZINE: Int8,
-          //          MEMO: String?
+                    MEMO: String,
           INSERT_DATE: String
           
         ) {
@@ -52,7 +52,7 @@ class User {
         self.POSITION=POSITION
         self.TEAM=TEAM
         self.MAGAZINE=MAGAZINE
-    // self.MEMO=MEMO
+        self.MEMO=MEMO
         
     }
 }
