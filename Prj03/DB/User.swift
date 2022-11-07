@@ -56,3 +56,23 @@ class User {
         
     }
 }
+
+
+//
+struct UserStruct {
+
+    var USER_NUM: String
+    var USER_ID: String
+    var USER_PASS: String
+    var NAME_KZ: String
+    var NAME_KANA: String
+    var NAME_ENG: String
+    var TELL: String
+    var GENDER: Int8
+    var POSITION: Int8
+    var TEAM: Int8
+    var MAGAZINE: Int8
+    var MEMO: String
+    var INSERT_DATE: String
+
+}

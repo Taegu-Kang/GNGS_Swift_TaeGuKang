@@ -35,19 +35,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //
 //      self.view.addSubview(self.tableView)
 //
-
+        
         //CSV読み込む
 //        csvArr = loadCSV(fileName: "dataList")
 //        loadData()
 //        loadData2()
-        
         
         // DB -> dataArr 
         database.openDB()
         dbArr = database.selectAll()
         
         loadData()
-        
         
     }
     
@@ -88,21 +86,48 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //deselectRow
         //tableView.deselectRow(at: indexPath, animated: true)
-        performSegue(withIdentifier: "showDetailMember", sender: nil)
+        performSegue(withIdentifier: "showModifyView", sender: nil)
     }
     
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showDetailMember" {
+        if segue.identifier == "showModifyView" {
             if let indexPath = tableView.indexPathForSelectedRow {
-
-                guard let destination = segue.destination as? DetailViewController else {
-                    fatalError("Failed to prepare DetailViewController.")
+                guard let destination = segue.destination as? ModifyViewController else {
+                    fatalError("Failed to prepare ModifyViewController")
                 }
-
-                destination.detailCell = detailArr[indexPath.row]
+                
+                let user:User = dbArr[indexPath.row]
+                
+                destination.row = indexPath.row
+                
+                destination.user = user
+                
             }
         }
     }
+    
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "showModifyView" {
+//            if let indexPath = tableView.indexPathForSelectedRow {
+//
+//                guard let destination = segue.destination as? ModifyViewController else {
+//                    fatalError("Failed to prepare DetailViewController.")
+//                }
+//
+//                destination.detailCell = detailArr[indexPath.row]
+//            }
+//        }
+//    }
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     //func for CSVdata into cssArr[]
@@ -118,7 +143,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         return csvArr
     }
-    
     
     func loadData(){
         self.dataArr.removeAll()
@@ -150,7 +174,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             case 5:
                 posi = "次長"
             case 6:
-                posi = "部長"
+                posi = "代表"
             default:
                 posi = "平社員"
             }

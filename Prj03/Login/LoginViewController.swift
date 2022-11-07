@@ -46,7 +46,6 @@ class LoginViewController: UIViewController {
         //segue
         self.performSegue(withIdentifier: "showListMember", sender: nil)
         
-        
     }
     
     //alert
@@ -221,9 +220,11 @@ class LoginViewController: UIViewController {
             
             let team = Int8(arr[9])!
             
+            let posi = Int8(arr[8])!
+            
             print("CSV :" + arr[10])
             
-            let item = User(USER_NUM: arr[0], USER_ID: arr[1], USER_PASS: arr[2], NAME_KZ: arr[3], NAME_KANA: arr[4], NAME_ENG: arr[5], TELL: arr[6], GENDER: gen, POSITION: 1, TEAM: team, MAGAZINE: 0, MEMO: "", INSERT_DATE: arr[10])
+            let item = User(USER_NUM: arr[0], USER_ID: arr[1], USER_PASS: arr[2], NAME_KZ: arr[3], NAME_KANA: arr[4], NAME_ENG: arr[5], TELL: arr[6], GENDER: gen, POSITION: posi, TEAM: team, MAGAZINE: 0, MEMO: "", INSERT_DATE: arr[10])
 
             self.dataArr.append(item)
         }

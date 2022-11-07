@@ -170,7 +170,31 @@ class Database {
         return userArr
     }
     
-
+    //UPDATE
+    func update(user: User) {
+        var stmt: OpaquePointer?
+        
+        //+ 変更日
+        let queryString = "UPDATE USER_TABLE SET NAME_KZ='\(user.NAME_KZ)', NAME_KANA ='\(user.NAME_KANA)', NAME_ENG ='\(user.NAME_ENG)', TELL ='\(user.TELL)', GENDER =\(user.GENDER), POSITION =\(user.POSITION), TEAM =\(user.TEAM), MAGAZINE =\(user.MAGAZINE), MEMO ='\(user.MEMO)' WHERE USER_NUM =  '\(user.USER_NUM)'"
+        
+        // クエリを準備する
+        if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK{
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("error preparing insert: \(errmsg)")
+            return
+        }
+        
+        // クエリを実行する
+        if sqlite3_step(stmt) != SQLITE_DONE {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("failure inserting hero: \(errmsg)")
+            return
+        }
+        
+        print("データが更新されました")
+    }
+    
+    
     //select TEST
     func select(){
         let queryString = "SELECT * FROM USER_TABLE WHERE USER_NUM=''"

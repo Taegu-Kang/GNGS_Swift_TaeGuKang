@@ -9,71 +9,82 @@ import UIKit
 import Foundation
 
 
-class InsertViewController: UIViewController {
+class ModifyViewController: UIViewController {
     
     var insertValue : InsertValue = InsertValue()
     
+    var row:Int = 0
+    
+    //DB
+    var database = Database()
+    //
+    var dbArr: [User] = []
+    //
     var user:User = User(USER_NUM: "", USER_ID: "", USER_PASS: "", NAME_KZ: "", NAME_KANA: "", NAME_ENG: "", TELL: "", GENDER: 1, POSITION: 1, TEAM: 1, MAGAZINE: 1, MEMO: "", INSERT_DATE: "")
+    
     
     //scroll 関連
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var formView: UIView!
     
     //member 変
-    @IBOutlet weak var id: UITextField!
-    @IBOutlet weak var pw1: UITextField!
-    @IBOutlet weak var pw2: UITextField!
+    @IBOutlet weak var user_num: UITextField!
+    @IBOutlet weak var user_id: UITextField!
     
-    //name
     @IBOutlet weak var name_kz: UITextField!
     @IBOutlet weak var name_kana: UITextField!
     @IBOutlet weak var name_eng: UITextField!
-    //tel
+    
+    @IBOutlet weak var memo: UITextView!
+    
+    //Tel
     @IBOutlet weak var tel1: UITextField!
     @IBOutlet weak var tel2: UITextField!
     @IBOutlet weak var tel3: UITextField!
-    
-    
-    @IBOutlet weak var memo: UITextView!
+    var telArr: [String] = []
     
     //uiSwitch メールマガジン
     @IBOutlet weak var uiSwitch: UISwitch!
     var switchBool : Bool = true
     
     //validation check 項目
-    var idValiFlag : Bool = false
-    var pwValiFlag : Bool = false
-    var nameValiFlag : Bool = false
     var telValiFlag : Bool = false
-    
-    var yakkannCheckFlag : Bool = false
+    var nameValFlag : Bool = false
+    //var yakkannCheckFlag : Bool = false
     
     //checkBox
-    @IBOutlet weak var checkBox: UIButton!
-    let noneCheckImage = UIImage(systemName: "square")
-    let checkImage = UIImage(systemName: "checkmark.square.fill")
-    var checkBoxBool : Bool = false
+//    @IBOutlet weak var checkBox: UIButton!
+//    let noneCheckImage = UIImage(systemName: "square")
+//    let checkImage = UIImage(systemName: "checkmark.square.fill")
+//    var checkBoxBool : Bool = false
     
-    //radioButton
-     //Male
+    //Gender_radioButton
+    //Male
+    var maleBool : Bool = true
     @IBOutlet weak var maleRadio: UIButton!
     let noneChkMale = UIImage(systemName: "circle")
     let ChkMale = UIImage(systemName: "circle.inset.filled")
-    var maleBool : Bool = true
-     //Female
+    //Female
+    var femaleBool : Bool = false
     @IBOutlet weak var femaleRadio: UIButton!
     let noneChkFemale = UIImage(systemName: "circle")
     let ChkFemale = UIImage(systemName: "circle.inset.filled")
-    var femaleBool : Bool = false
     
-    //PickerView1
+    
+    //PickerView
     @IBOutlet weak var syokuTextField: UITextField!
     let syokuArr = ["平社員","主任","課長","部長","次長","代表"]
     var syokuPickerView = UIPickerView()
+    
     //PickerView2
     @IBOutlet weak var syozokuTextField: UITextField!
     let syozokuArr = ["第１チーム","第２チーム","第３チーム","第４チーム","第５チーム","第６チーム"]
     var syozokuPickerView = UIPickerView()
+    
+    //backButton
+    @IBAction func backButton(_ sender: Any) {
+        self.presentingViewController?.dismiss(animated: true)
+    }
     
     
     
@@ -99,35 +110,104 @@ class InsertViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //
+        print(row)
+        
+        print(user.USER_NUM)
+        
+        print(user.GENDER)
+        
+        user_num.text = user.USER_NUM
+        user_id.text = user.USER_ID
+        
+        name_kz.text = user.NAME_KZ
+        name_kana.text = user.NAME_KANA
+        
+        name_eng.text = user.NAME_ENG
+        
+        memo.text = user.MEMO
+        
+        //Tel
+        seperTel()
+        
+        tel1.text = telArr[0]
+        tel2.text = telArr[1]
+        tel3.text = telArr[2]
+        
+        //
+        database.openDB()
+
+        
         //scroll
         scrollView.contentSize = CGSize(width: formView.frame.width, height: formView.frame.height)
         
-        //pickerView
-        syokuTextField.text = "平社員"
+        //pickerView1 役職
+        var posi:String = ""
+         switch user.POSITION {
+         case 1:
+             posi = "平社員"
+         case 2:
+             posi = "主任"
+         case 3:
+             posi = "課長"
+         case 4:
+             posi = "部長"
+         case 5:
+             posi = "次長"
+         case 6:
+             posi = "代表"
+         default:
+             posi = "平社員"
+         }
+        syokuTextField.text = posi
+        selectingText = posi
+        
+        selectedPickerText = posi
+        
+        //pickerView1 所属
+        
+        var zoku:String = ""
+        switch user.TEAM {
+         case 1:
+             zoku = syozokuArr[0]
+         case 2:
+             zoku = syozokuArr[1]
+         case 3:
+             zoku = syozokuArr[2]
+         case 4:
+             zoku = syozokuArr[3]
+         case 5:
+             zoku = syozokuArr[4]
+         case 6:
+             zoku = syozokuArr[5]
+         default:
+             zoku = syozokuArr[0]
+         }
+        syozokuTextField.text = zoku
+        selectingText2 = zoku
+        
+        selectedPickerText2 = zoku
+        
+        
+        //magazine
+//        if(user.MAGAZINE == 0){ switchBool = false }
+            
+        
         syokuTextField.tintColor = .clear
         syokuTextField.textAlignment = .center
+        
         syokuTextField.inputView = syokuPickerView
-    
-        selectingText = "平社員"
-        selectedPickerText = "平社員"
         
 //        syokuPickerView.delegate = self
 //        syokuPickerView.dataSource = self
-        
-        syozokuTextField.text = "第１チーム"
-        syozokuTextField.tintColor = .clear
-        syozokuTextField.textAlignment = .center
-        syozokuTextField.inputView = syokuPickerView
-        
-        selectingText2 = "第１チーム"
-        selectedPickerText2 = "第１チーム"
         
         createPickerView()
         dismissPickerView()
         
         //checkBox default値
-        checkBox.isSelected = false
-        checkBox.setImage(checkBox.isSelected ? checkImage : noneCheckImage, for: .normal)
+//        checkBox.isSelected = false
+//        checkBox.setImage(checkBox.isSelected ? checkImage : noneCheckImage, for: .normal)
         
         //性別radio button default値
         maleRadio.isSelected = true
@@ -135,16 +215,20 @@ class InsertViewController: UIViewController {
         femaleRadio.isSelected = false
         femaleRadio.setImage(femaleRadio.isSelected ? ChkFemale : noneChkFemale, for: .normal)
         
+        //Gender
+        gender()
+//        //mail magazine
+        mgz()
+        
         //入力制限 delegate
-        id.delegate = self
-        pw1.delegate = self
-        pw2.delegate = self
+        user_id.delegate = self
+//        name_kz.delegate = self
+//        name_kana.delegate = self
+//        name_eng.delegate = self
         
         //keyboard type
-        id.keyboardType = .emailAddress
-        pw1.keyboardType = .asciiCapable
-        pw2.keyboardType = .asciiCapable
-        
+        user_id.keyboardType = .emailAddress
+//        name_kz.keyboardType = .asciiCapable
         name_eng.keyboardType = .asciiCapable
         
         //keyboard down
@@ -158,13 +242,52 @@ class InsertViewController: UIViewController {
         
     }
     
+    //Gender
+    func gender(){
+        if(user.GENDER == 0){
+            maleBool = false
+            femaleBool = true
+            
+            maleRadio.isSelected = false
+            maleRadio.setImage(maleRadio.isSelected ? ChkMale : noneChkMale, for: .normal)
+            femaleRadio.isSelected = true
+            femaleRadio.setImage(femaleRadio.isSelected ? ChkFemale : noneChkFemale, for: .normal)
+        }
+    }
     
+    //Gender
+    func mgz(){
+        if(user.MAGAZINE == 0){
+            switchBool = false
+            switchBool.toggle()
+        }
+    }
+    
+    
+    
+    //tel seperated
+    func seperTel() {
+        //func for csvArr[].seperated -> dataArr[].append
+        telArr = user.TELL.description.components(separatedBy: "-")
+        
+        print("telArr.count:",telArr.count)
+        
+        while(telArr.count < 3 ){
+            telArr.append("")
+        }
+        
+        
+    }
+        
+        
+    //MARK: KeyBoard POPUP
     //
     @objc func dismissKeyboard() {
         self.view.endEditing(true)
     }
     @objc func keyboardWillShow(notification: NSNotification) {
             
+        
 //        if !memo.isFirstResponder {
 //            return
 //        }
@@ -188,6 +311,8 @@ class InsertViewController: UIViewController {
             let y = self.innerView.frame.height - self.scrollView.frame.height + (-90) + keyboardFrame
             self.scrollView.contentOffset = CGPoint(x: 0, y: y)
         }
+        
+        
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
@@ -201,7 +326,7 @@ class InsertViewController: UIViewController {
         )
     }
     
-    //keyboard _ return key // 
+    //keyboard _ return key //
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let nextTag = textField.tag + 1
         
@@ -210,6 +335,7 @@ class InsertViewController: UIViewController {
         } else {
             textField.resignFirstResponder()
         }
+        
         return true
     }
     
@@ -219,16 +345,16 @@ class InsertViewController: UIViewController {
         switchBool.toggle()
         print("switch Bool :", switchBool)
     }
-    
+  
     
     //checkBox Toggle
-    @IBAction func checkBoxAction(_ sender: UIButton) {
-        checkBox.isSelected.toggle()
-        checkBoxBool.toggle()
-        checkBox.setImage(checkBox.isSelected ? checkImage : noneCheckImage, for: .normal)
-        
-        print("checkBoxBool :" , checkBoxBool)
-    }
+//    @IBAction func checkBoxAction(_ sender: UIButton) {
+//        checkBox.isSelected.toggle()
+//        checkBoxBool.toggle()
+//        checkBox.setImage(checkBox.isSelected ? checkImage : noneCheckImage, for: .normal)
+//        
+//        print("checkBoxBool :" , checkBoxBool)
+//    }
     
     
     //radioButton Toggle
@@ -252,28 +378,14 @@ class InsertViewController: UIViewController {
     }
     
     
-    //pop-up Massage func
-    func alertMessage(title:String, textFd:UITextField){
-            alert = UIAlertController(title: title, message: "", preferredStyle: UIAlertController.Style.alert)
-            
-            let alertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
-                textFd.becomeFirstResponder()
-            })
-            
-            alert.addAction(alertAction)
-            
-            self.present(alert, animated: true, completion: nil)
-    }
-    
-    
     //Validation func1 ( ID )
-    func idValidation() -> Bool {
+    func idVali() -> Bool {
         //空白チェック
-        if id.text!.isEmpty, id.text! == "" {
+        if user_id.text!.isEmpty, user_id.text! == "" {
             alert = UIAlertController(title: "IDを入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
             
             let idAlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
-                self.id.becomeFirstResponder()
+                self.user_id.becomeFirstResponder()
             })
             
             alert.addAction(idAlertAction)
@@ -285,12 +397,12 @@ class InsertViewController: UIViewController {
         //正規化チェック
         //[0-9a-z._%+-]+@[a-z]+.[a-z]
         //
-        if id.text!.range(of: "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}", options: .regularExpression) == nil{
+        if user_id.text!.range(of: "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}", options: .regularExpression) == nil{
            
             alert = UIAlertController(title: "IDはメールアドレスです。\nメールアドレスを入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
             
             let idAlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
-                self.id.becomeFirstResponder()
+                self.user_id.becomeFirstResponder()
             })
             
             alert.addAction(idAlertAction)
@@ -306,13 +418,13 @@ class InsertViewController: UIViewController {
     
     
     //Validation func2 ( pw1, pw2 )
-    func pwValidation() -> Bool {
+    func nameVali() -> Bool {
         //空白チェック pw1
-        if pw1.text!.isEmpty, pw1.text! == "" {
-            alert = UIAlertController(title: "パスワードを入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
+        if name_kz.text!.isEmpty, name_kz.text! == "" {
+            alert = UIAlertController(title: "名前(漢字)を入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
             
             let pw1AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
-                self.pw1.becomeFirstResponder()
+                self.name_kz.becomeFirstResponder()
             })
             
             alert.addAction(pw1AlertAction)
@@ -322,25 +434,13 @@ class InsertViewController: UIViewController {
             return false
             
         }
-        //正規化チェック pw1
-        if pw1.text!.range(of: "^.*(?=^.{8,15}$)(?=.*[0-9])(?=.*[a-zA-Z]).*$", options: .regularExpression) == nil{
-            alert = UIAlertController(title: "パスワードは英文字、\n数字を混ぜて８桁以上になります。", message: "", preferredStyle: UIAlertController.Style.alert)
-            
-            let pw1AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
-                self.pw1.becomeFirstResponder()
-            })
-            
-            alert.addAction(pw1AlertAction)
-            
-            self.present(alert, animated: true, completion: nil)
-            return false
-        }
+
         //空白チェック pw2
-        if pw2.text!.isEmpty, pw2.text! == "" {
-            alert = UIAlertController(title: "パスワード(再入力)を入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
+        if name_kana.text!.isEmpty, name_kana.text! == "" {
+            alert = UIAlertController(title: "名前(カナ)を入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
             
             let pw2AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
-                self.pw2.becomeFirstResponder()
+                self.name_kana.becomeFirstResponder()
             })
             
             alert.addAction(pw2AlertAction)
@@ -350,11 +450,11 @@ class InsertViewController: UIViewController {
             return false
         }
         //pw1,pw2 一致性チェック
-        if pw1.text! != pw2.text! {
-            alert = UIAlertController(title: "パスワード(再入力)とパスワードが一致しません。", message: "", preferredStyle: UIAlertController.Style.alert)
+        if name_eng.text!.isEmpty, name_eng.text! == "" {
+            alert = UIAlertController(title: "名前(英語)を入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
             
             let pw2AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
-                self.pw2.becomeFirstResponder()
+                self.name_eng.becomeFirstResponder()
             })
             
             alert.addAction(pw2AlertAction)
@@ -366,53 +466,47 @@ class InsertViewController: UIViewController {
         return true
     }
     
-    func nameValidation() -> Bool {
-        //空白チェック
-        if name_kz.text!.isEmpty, name_kz.text! == "" {
-            alertMessage(title: "name_kzを入力してください。", textFd: name_kz)
-            return false
-        }
-        if name_kana.text!.isEmpty, name_kana.text! == "" {
-            alertMessage(title: "name_kanaを入力してください。", textFd: name_kana)
-            return false
-        }
-        if name_eng.text!.isEmpty, name_eng.text! == "" {
-            alertMessage(title: "name_engを入力してください。", textFd: name_eng)
-            return false
-        }
-        return true
-    }
-    
-    func telValidation() -> Bool {
-        //空白チェック
+    //Validation func2 ( pw1, pw2 )
+    func telVali() -> Bool {
+        //空白チェック pw1
         if tel1.text!.isEmpty, tel1.text! == "" {
-            alertMessage(title: "tel1を入力してください。", textFd: tel1)
-            return false
-        }
-        if tel2.text!.isEmpty, tel2.text! == "" {
-            alertMessage(title: "tel2を入力してください。", textFd: tel2)
-            return false
-        }
-        if tel3.text!.isEmpty, tel3.text! == "" {
-            alertMessage(title: "tel3を入力してください。", textFd: tel3)
-            return false
-        }
-        return true
-    }
-    
-    
-
-    //Validation func3 ( 約款Check　)
-    func yakkannCheck() -> Bool {
-        //約款checkBoxBool チェック
-        if !checkBoxBool {
-            alert = UIAlertController(title: "約款に同意してください。", message: "", preferredStyle: UIAlertController.Style.alert)
+            alert = UIAlertController(title: "電話番号を入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
             
-            let yakkannAlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
-                self.checkBox.becomeFirstResponder()
+            let pw1AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
+                self.tel1.becomeFirstResponder()
             })
             
-            alert.addAction(yakkannAlertAction)
+            alert.addAction(pw1AlertAction)
+            
+            self.present(alert, animated: true, completion: nil)
+            
+            return false
+            
+        }
+
+        //空白チェック pw2
+        if tel2.text!.isEmpty, tel2.text! == "" {
+            alert = UIAlertController(title: "電話番号を入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
+            
+            let pw2AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
+                self.tel1.becomeFirstResponder()
+            })
+            
+            alert.addAction(pw2AlertAction)
+            
+            self.present(alert, animated: true, completion: nil)
+            
+            return false
+        }
+        //pw1,pw2 一致性チェック
+        if tel3.text!.isEmpty, tel3.text! == "" {
+            alert = UIAlertController(title: "電話番号を入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
+            
+            let pw2AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
+                self.tel3.becomeFirstResponder()
+            })
+            
+            alert.addAction(pw2AlertAction)
             
             self.present(alert, animated: true, completion: nil)
             return false
@@ -422,39 +516,54 @@ class InsertViewController: UIViewController {
     }
     
     
+    //Validation func3 ( 約款Check　)
+//    func yakkannCheck() -> Bool {
+//        //約款checkBoxBool チェック
+//        if !checkBoxBool {
+//            alert = UIAlertController(title: "約款に同意してください。", message: "", preferredStyle: UIAlertController.Style.alert)
+//
+//            let yakkannAlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
+//                self.checkBox.becomeFirstResponder()
+//            })
+//
+//            alert.addAction(yakkannAlertAction)
+//
+//            self.present(alert, animated: true, completion: nil)
+//            return false
+//        }
+//        //pass
+//        return true
+//    }
+    
+    
     //登録ボタン　action　, validation_func check : vali_flag, error message 表示
     @IBAction func signUpButton(_ sender: UIButton) {
         
         //vali func1
-        idValiFlag = idValidation()
+        telValiFlag = telVali()
         
         //vali func2
-        pwValiFlag = pwValidation()
-        
-        //vali func2-2
-        nameValiFlag = nameValidation()
-            
-        //vali func2-3
-        telValiFlag = telValidation()
+        nameValFlag = nameVali()
         
         //vali func3
-        yakkannCheckFlag = yakkannCheck()
+        //yakkannCheckFlag = yakkannCheck()
         
         //f1,f2,f3 = All valiFlag check
-        print("id Flag : ",  idValiFlag)
-        print("pw Flag : ",  pwValiFlag)
-        print("yakkann Flag : ",  yakkannCheckFlag)
+        print("name Flag : ", telValiFlag)
+        print("tel Flag : ",  nameValFlag)
+        //print("yakkann Flag : ",  yakkannCheckFlag)
         
-        if(idValiFlag && pwValiFlag && nameValiFlag && telValidation() && yakkannCheckFlag ){
+        if(telValiFlag && nameValFlag ){
             print("All PASS")
             //入力したデータ
-//            insertValue = InsertValue(id: id.text!, syoku: syokuTextField.text!,
+//            insertValue = InsertValue(id: user_id.text!, syoku: syokuTextField.text!,
 //            gender: maleBool, mail_magazine: switchBool, yakkann: true, memo: memo.text!)
             
-            //入力したデータ
+            print(memo.text!)
+            print(syokuTextField.text!)
+            
             
             let tel:String = tel1.text! + "-" + tel2.text! + "-" + tel3.text!
-            
             var gen:Int8 = 7
             if(maleBool){ gen = 1 }else{ gen = 0 }
             
@@ -484,34 +593,35 @@ class InsertViewController: UIViewController {
                     break
                 }
             }
-            
             var mgz:Int8 = 7
             if(switchBool){ mgz = 1 }else{ mgz = 0 }
             
-            user = User(USER_NUM: "", USER_ID: id.text!, USER_PASS: pw1.text!, NAME_KZ: name_kz.text!, NAME_KANA: name_kana.text!, NAME_ENG: name_eng.text!, TELL: tel, GENDER: gen, POSITION: posi, TEAM: team, MAGAZINE: mgz, MEMO: memo.text!, INSERT_DATE: "")
+            //User Object 準備
+            let user:User = User(USER_NUM: user_num.text!, USER_ID: "", USER_PASS: "", NAME_KZ: name_kz.text!, NAME_KANA: name_kana.text!, NAME_ENG: name_eng.text!, TELL: tel, GENDER: gen, POSITION: posi, TEAM: team, MAGAZINE: mgz, MEMO: memo.text!, INSERT_DATE: "")
             
+            database.update(user: user)
             
-            print(memo.text!)
+            self.presentingViewController?.dismiss(animated: true)
             
             //flag check func _ flag 1,2,3 check -> OK -> 登録完了、確認画面に移動
-            self.performSegue(withIdentifier: "showInsertMember", sender: nil)
+//            self.performSegue(withIdentifier: "showInsertMember", sender: nil)
         }
     }
     
     
-    // MARK: segue prepare
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showInsertMember" {
-            guard let destination = segue.destination as? Detail_InsertViewController else {
-                fatalError("Failed to prepare DetailViewController.")
-
-            }
-                //data tennsou
-            //destination.insertValue = self.insertValue
-        
-            destination.user = user
-        }
-    }
+    // segue
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "showInsertMember" {
+//            guard let destination = segue.destination as? Detail_InsertViewController else {
+//                fatalError("Failed to prepare DetailViewController.")
+//
+//            }
+//                //data tennsou
+////            destination.insertValue = self.insertValue
+//            print("data tennsou")
+//
+//        }
+//    }
     
     
     /*
@@ -558,8 +668,9 @@ class InsertViewController: UIViewController {
 }
 
 
+// MARK: UIpickerView
 //UIPickerView 関連 (職業選ぶ)
-extension InsertViewController: UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
+extension ModifyViewController: UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -627,22 +738,28 @@ extension InsertViewController: UIPickerViewDataSource, UIPickerViewDelegate, UI
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,target:self,action:nil)
         let button2 = UIBarButtonItem(title: "キャンサル", style: .plain, target: self, action: #selector(self.cancel))
         toolBar.setItems([button2, space, button1], animated: true)
-        
+    
         toolBar.isUserInteractionEnabled = true
         syokuTextField.inputAccessoryView = toolBar
         syozokuTextField.inputAccessoryView = toolBar
     }
     
     
+    
+    
+    //MARK: KeyBoard Input restrict
     //入力制限　関連
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         print(string)
+        
+        
         
         let currStr = textField.text! as NSString
         let changed = currStr.replacingCharacters(in: range, with: string)
         
         
         let invalid  : NSCharacterSet = NSCharacterSet(charactersIn:  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@._-").inverted as NSCharacterSet
+        
         let range = string.rangeOfCharacter(from: invalid as CharacterSet)
         
         
@@ -654,13 +771,12 @@ extension InsertViewController: UIPickerViewDataSource, UIPickerViewDelegate, UI
 //             }
 //         }
         
-        if textField == id {
-            //id
+        if textField == name_kz {
+            
             guard range == nil else { return false }
             guard changed.count < 50 else { return false }
             return true
         } else {
-            //pw1, pw2
             
             //guard textField.text!.count < 15 else { return false }
             guard changed.count < 15 else { return false }
