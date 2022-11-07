@@ -195,14 +195,90 @@ class Database {
     }
     
     
+    //insertUser (User)
+    func insertUser(user: User) {
+        var stmt: OpaquePointer?
+        
+        //現在時間　yyyy-MM-dd
+        let dt = Date()
+        let dateFormatter = DateFormatter()
+        // DateFormatter を使用して書式とロケールを指定する
+        dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "yyyy-MM-dd", options: 0, locale: Locale(identifier: "ja_JP"))
+        
+        let inser_date:String = dateFormatter.string(from: dt)
+        
+        print(inser_date)
+        
+        
+        
+            //社員番号(USER_NUM)(PK) generate   ->  CLASS 作ります。
+            let nextUser = numCheck()
+        
+        
+            let queryString = "INSERT INTO USER_TABLE (USER_NUM, USER_ID, USER_PASS, NAME_KZ, NAME_KANA, NAME_ENG,  TELL, GENDER , POSITION , TEAM , MAGAZINE, INSERT_DATE) VALUES ('\(nextUser)','\(user.USER_ID)','\(user.USER_PASS)','\(user.NAME_KZ)','\(user.NAME_KANA)','\(user.NAME_ENG)','\(user.TELL)','\(user.GENDER)','\(user.POSITION)',\(user.TEAM),\(user.MAGAZINE),'\(inser_date)')"
+            
+            print("query :" + queryString)
+            
+            // クエリを準備する
+            if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK{
+                let errmsg = String(cString: sqlite3_errmsg(db)!)
+                print("error preparing insert: \(errmsg)")
+                return
+            }
+            // クエリを実行する
+            if sqlite3_step(stmt) != SQLITE_DONE {
+                let errmsg = String(cString: sqlite3_errmsg(db)!)
+                print("failure inserting hero: \(errmsg)")
+                return
+            }
+        
+        print("データが登録されました")
+    }
+    
+    
+    //USER_NUM redundant_check
+    func numCheck()->String{
+        let queryString = "SELECT * from USER_TABLE ORDER BY DESC USER_NUM DESC LIMIT 1"
+        
+        var nextUser:String = ""
+        
+        var stmt:OpaquePointer?
+        
+        // クエリを準備する
+        if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK{
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("error preparing insert: \(errmsg)")
+            return nextUser
+        }
+        
+        // クエリを実行し、取得したレコードをループする
+        while(sqlite3_step(stmt) == SQLITE_ROW){
+            nextUser = String(cString: sqlite3_column_text(stmt, 0))
+
+            print("USER_NUM : \(nextUser)")
+        }
+        
+        var arr:[String] = []
+        
+        arr = nextUser.description.components(separatedBy: "-")
+        
+        arr[1] = String(Int(arr[1])! + 1 )
+        
+        nextUser = arr[0] + "-" + arr[1]
+        
+        return nextUser
+    }
+    
+    
+    
+    
+    //
     //select TEST
     func select(){
         let queryString = "SELECT * FROM USER_TABLE WHERE USER_NUM=''"
         
         var stmt:OpaquePointer?
-        
-        print(123)
-        
+
         // クエリを準備する
         if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK{
             let errmsg = String(cString: sqlite3_errmsg(db)!)
@@ -211,7 +287,7 @@ class Database {
         }
         
         // クエリを実行し、取得したレコードをループする
-        while(sqlite3_step(stmt) == SQLITE_ROW){
+        if(sqlite3_step(stmt) == SQLITE_ROW){
             let num = String(cString: sqlite3_column_text(stmt, 0))
             let kz = String(cString: sqlite3_column_text(stmt, 3))
 //            let kz = sqlite3_column_int(stmt, 3)

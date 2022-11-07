@@ -8,6 +8,9 @@
 import UIKit
 
 class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    //DB
+    var database = Database()
 
     var insertValue : InsertValue = InsertValue()
     
@@ -35,6 +38,18 @@ class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITabl
     @IBAction func backButton(_ sender: Any) {
         self.presentingViewController?.dismiss(animated: true)
     }
+    
+    @IBAction func insertButton(_ sender: Any) {
+        
+        
+        //
+        database.openDB()
+        //database.update(user: user)
+        
+        database.insertUser(user: user)
+    }
+    
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return detailTitle.count

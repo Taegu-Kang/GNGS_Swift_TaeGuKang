@@ -142,6 +142,7 @@ class InsertViewController: UIViewController {
         
         //keyboard type
         id.keyboardType = .emailAddress
+        //
         pw1.keyboardType = .asciiCapable
         pw2.keyboardType = .asciiCapable
         

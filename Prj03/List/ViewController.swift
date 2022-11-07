@@ -47,7 +47,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         loadData()
         
+        
+        
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        database.openDB()
+        dbArr = database.selectAll()
+
+        loadData()
+
+        self.tableView.reloadData()
+    }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataArr.count
@@ -194,6 +206,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
 
             let item = SyainnValueSample(syaNum: user.USER_NUM, name: user.NAME_KZ, yaku: posi, syozoku: team)
+            //dbArr
+            
             
             self.dataArr.append(item)
         }

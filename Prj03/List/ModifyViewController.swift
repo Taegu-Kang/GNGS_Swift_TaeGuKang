@@ -84,6 +84,8 @@ class ModifyViewController: UIViewController {
     //backButton
     @IBAction func backButton(_ sender: Any) {
         self.presentingViewController?.dismiss(animated: true)
+        
+        
     }
     
     
@@ -221,15 +223,16 @@ class ModifyViewController: UIViewController {
         mgz()
         
         //入力制限 delegate
-        user_id.delegate = self
-//        name_kz.delegate = self
-//        name_kana.delegate = self
-//        name_eng.delegate = self
+     //user_id.delegate = self
+        
+        name_kz.delegate = self
+        name_kana.delegate = self
+        name_eng.delegate = self
         
         //keyboard type
         user_id.keyboardType = .emailAddress
 //        name_kz.keyboardType = .asciiCapable
-        name_eng.keyboardType = .asciiCapable
+//          name_eng.keyboardType = .asciiCapable
         
         //keyboard down
         let tapGR: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -602,6 +605,9 @@ class ModifyViewController: UIViewController {
             database.update(user: user)
             
             self.presentingViewController?.dismiss(animated: true)
+            //refresh(?)
+            
+            
             
             //flag check func _ flag 1,2,3 check -> OK -> 登録完了、確認画面に移動
 //            self.performSegue(withIdentifier: "showInsertMember", sender: nil)
@@ -750,39 +756,40 @@ extension ModifyViewController: UIPickerViewDataSource, UIPickerViewDelegate, UI
     //MARK: KeyBoard Input restrict
     //入力制限　関連
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
         print(string)
-        
-        
         
         let currStr = textField.text! as NSString
         let changed = currStr.replacingCharacters(in: range, with: string)
         
+        var numR:Int = 0
+        var strR:String = ""
         
-        let invalid  : NSCharacterSet = NSCharacterSet(charactersIn:  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@._-").inverted as NSCharacterSet
-        
-        let range = string.rangeOfCharacter(from: invalid as CharacterSet)
-        
-        
-        //backSpace 可能化
-//        if let char = string.cString(using: String.Encoding.utf8) {
-//             let isBackSpace = strcmp(char, "\\b")
-//             if isBackSpace == -92 {
-//                 return true
-//             }
-//         }
-        
-        if textField == name_kz {
-            
-            guard range == nil else { return false }
-            guard changed.count < 50 else { return false }
-            return true
-        } else {
-            
-            //guard textField.text!.count < 15 else { return false }
-            guard changed.count < 15 else { return false }
-            return true
+        switch textField {
+        case name_kz:
+            numR = 10
+            strR = "^[ぁ-んァ-ヶｱ-ﾝﾞﾟ一-龠]*$"
+        case name_kana:
+            numR = 10
+            strR = "^[ぁ-んァ-ヶｱ-ﾝﾞﾟ一-龠]*$"
+            print("KANA")
+        case name_eng:
+            numR = 10
+            strR = "^[a-zA-Z]*$"
+        default:
+            numR = 10
+            strR = "^[a-zA-Z]*$"
         }
         
+        // max length
+         guard changed.count <= numR else {
+             return false
+         }
+        print("length OK, Exp:",strR)
+        
+        // 入力制限
+         let patternStr = strR //!!
+         return changed.range(of: patternStr, options: .regularExpression) != nil
         
     }
     
