@@ -14,6 +14,8 @@ class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITabl
 
     var insertValue : InsertValue = InsertValue()
     
+    var memoArr: [String] = []
+    
     @IBOutlet weak var tableView: UITableView!
     
     var cell : UITableViewCell = UITableViewCell()
@@ -23,6 +25,8 @@ class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITabl
     var detailContext : [String] = []
     
     var user:User = User(USER_NUM: "", USER_ID: "", USER_PASS: "", NAME_KZ: "", NAME_KANA: "", NAME_ENG: "", TELL: "", GENDER: 1, POSITION: 1, TEAM: 1, MAGAZINE: 1, MEMO: "", INSERT_DATE: "")
+    
+    let syozokuArr = ["第１チーム","第２チーム","第３チーム","第４チーム","第５チーム","第６チーム"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,19 +44,34 @@ class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     @IBAction func insertButton(_ sender: Any) {
-        
-        
-        //
+        //DB
         database.openDB()
-        //database.update(user: user)
         
         database.insertUser(user: user)
+        
+        //self.presentingViewController?.dismiss(animated: true)
+        
+        //perform segue
+        
+        self.performSegue(withIdentifier: "showHomeVC", sender: nil)
+    }
+    
+    // MARK: segue prepare
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showHomeVC" {
+//            guard let destination = segue.destination as? Detail_InsertViewController else {
+//                fatalError("Failed to prepare DetailViewController.")
+//            }
+                //data tennsou
+            //destination.insertValue = self.insertValue
+        
+            self.presentingViewController?.dismiss(animated: true)
+        }
     }
     
     
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return detailTitle.count
+        return detailContext.count
     }
     
     //Cell 生成
@@ -60,7 +79,6 @@ class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITabl
          
         cell = tableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath)
         return cell
-        
     }
     
     //Cell 表示
@@ -75,10 +93,7 @@ class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITabl
 //
 //        }
         
-        
         label2.text = detailContext[indexPath.item]
-        
-        
     }
 
     /*
@@ -99,21 +114,65 @@ class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITabl
         detailContext.append(user.NAME_ENG)
         //tel
         detailContext.append(user.TELL)
+        
         //syoku
-        detailContext.append(String(user.POSITION))
+        //役職
+        var posi:String = ""
+         switch user.POSITION {
+         case 1:
+             posi = "平社員"
+         case 2:
+             posi = "主任"
+         case 3:
+             posi = "課長"
+         case 4:
+             posi = "部長"
+         case 5:
+             posi = "次長"
+         case 6:
+             posi = "代表"
+         default:
+             posi = "平社員"
+         }
+        detailContext.append(posi)
+        
         //syozoku
-        detailContext.append(String(user.TEAM))
+        //pickerView1 所属
+        var zoku:String = ""
+        switch user.TEAM {
+         case 1:
+             zoku = syozokuArr[0]
+         case 2:
+             zoku = syozokuArr[1]
+         case 3:
+             zoku = syozokuArr[2]
+         case 4:
+             zoku = syozokuArr[3]
+         case 5:
+             zoku = syozokuArr[4]
+         case 6:
+             zoku = syozokuArr[5]
+         default:
+             zoku = syozokuArr[0]
+         }
+        detailContext.append(zoku)
         
-        detailContext.append(String(user.GENDER))
-        detailContext.append(String(user.MAGAZINE))
-        detailContext.append("同義")
+        //Gender
+        if(user.GENDER == 1){
+            detailContext.append("男性")
+        }else{
+            detailContext.append("女性")
+        }
         
+        //Magazine
+        if(user.MAGAZINE == 1){
+                    detailContext.append("同意")
+                }else{
+                    detailContext.append("非同意")
+                }
+        detailContext.append("同意")
         
-//        if(insertValue.gender){
-//            detailContext.append("男性")
-//        }else{
-//            detailContext.append("女性")
-//        }
+
 //        if(insertValue.mail_magazine){
 //            detailContext.append("許可")
 //        }else{
@@ -125,13 +184,24 @@ class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITabl
 //            detailContext.append("非同義")
 //        }
         
-        
         if(user.MEMO == ""){
             detailContext.append("なし")
         }else{
-            detailContext.append(user.MEMO)
+            memoArr = user.MEMO
+                .replacingOccurrences(of: "\r\n", with: "\n")
+                .replacingOccurrences(of: "\r", with: "\n")
+                .components(separatedBy: "\n")
+            
+            if((memoArr.last)?.count == 0){
+                memoArr.removeLast()
+            }
+            
+            for num in 0...memoArr.count-1{
+                detailTitle.append("")
+                detailContext.append(memoArr[num])
+            }
         }
-    }
     
-
+        
+    }
 }

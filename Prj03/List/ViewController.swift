@@ -47,8 +47,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         loadData()
         
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -112,6 +110,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let user:User = dbArr[indexPath.row]
                 
                 destination.row = indexPath.row
+                
+                print("mgz:",user.MAGAZINE)
                 
                 destination.user = user
                 

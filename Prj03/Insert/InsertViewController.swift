@@ -11,6 +11,9 @@ import Foundation
 
 class InsertViewController: UIViewController {
     
+    //DB
+    var database = Database()
+    
     var insertValue : InsertValue = InsertValue()
     
     var user:User = User(USER_NUM: "", USER_ID: "", USER_PASS: "", NAME_KZ: "", NAME_KANA: "", NAME_ENG: "", TELL: "", GENDER: 1, POSITION: 1, TEAM: 1, MAGAZINE: 1, MEMO: "", INSERT_DATE: "")
@@ -60,6 +63,7 @@ class InsertViewController: UIViewController {
     let noneChkMale = UIImage(systemName: "circle")
     let ChkMale = UIImage(systemName: "circle.inset.filled")
     var maleBool : Bool = true
+    
      //Female
     @IBOutlet weak var femaleRadio: UIButton!
     let noneChkFemale = UIImage(systemName: "circle")
@@ -70,6 +74,7 @@ class InsertViewController: UIViewController {
     @IBOutlet weak var syokuTextField: UITextField!
     let syokuArr = ["平社員","主任","課長","部長","次長","代表"]
     var syokuPickerView = UIPickerView()
+    
     //PickerView2
     @IBOutlet weak var syozokuTextField: UITextField!
     let syozokuArr = ["第１チーム","第２チーム","第３チーム","第４チーム","第５チーム","第６チーム"]
@@ -136,12 +141,16 @@ class InsertViewController: UIViewController {
         femaleRadio.setImage(femaleRadio.isSelected ? ChkFemale : noneChkFemale, for: .normal)
         
         //入力制限 delegate
-        id.delegate = self
-        pw1.delegate = self
-        pw2.delegate = self
+//        id.delegate = self
+//        pw1.delegate = self
+//        pw2.delegate = self
+        
+        name_kz.delegate = self
+        name_kana.delegate = self
+        name_eng.delegate = self
         
         //keyboard type
-        id.keyboardType = .emailAddress
+        id.keyboardType = .asciiCapable
         //
         pw1.keyboardType = .asciiCapable
         pw2.keyboardType = .asciiCapable
@@ -156,6 +165,9 @@ class InsertViewController: UIViewController {
         //keyboard up
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        //DB
+        database.openDB()
         
     }
     
@@ -252,6 +264,8 @@ class InsertViewController: UIViewController {
         maleRadio.setImage(maleRadio.isSelected ? ChkMale : noneChkMale, for: .normal)
     }
     
+    //id
+    
     
     //pop-up Massage func
     func alertMessage(title:String, textFd:UITextField){
@@ -301,6 +315,24 @@ class InsertViewController: UIViewController {
             
            return false
         }
+        
+        if id.text!.isEmpty, id.text! == "" {
+            alert = UIAlertController(title: "IDを入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
+            
+            let idAlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
+                self.id.becomeFirstResponder()
+            })
+            
+            alert.addAction(idAlertAction)
+            
+            self.present(alert, animated: true, completion: nil)
+            
+            return false
+        }
+        
+        
+        
+        
         //pass
         return true
     }
@@ -635,39 +667,43 @@ extension InsertViewController: UIPickerViewDataSource, UIPickerViewDelegate, UI
     }
     
     
+    //MARK: KeyBoard Input restrict
     //入力制限　関連
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
         print(string)
         
         let currStr = textField.text! as NSString
         let changed = currStr.replacingCharacters(in: range, with: string)
         
+        var numR:Int = 0
+        var strR:String = ""
         
-        let invalid  : NSCharacterSet = NSCharacterSet(charactersIn:  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@._-").inverted as NSCharacterSet
-        let range = string.rangeOfCharacter(from: invalid as CharacterSet)
-        
-        
-        //backSpace 可能化
-//        if let char = string.cString(using: String.Encoding.utf8) {
-//             let isBackSpace = strcmp(char, "\\b")
-//             if isBackSpace == -92 {
-//                 return true
-//             }
-//         }
-        
-        if textField == id {
-            //id
-            guard range == nil else { return false }
-            guard changed.count < 50 else { return false }
-            return true
-        } else {
-            //pw1, pw2
-            
-            //guard textField.text!.count < 15 else { return false }
-            guard changed.count < 15 else { return false }
-            return true
+        switch textField {
+        case name_kz:
+            numR = 10
+            strR = "^[ぁ-んァ-ヶｱ-ﾝﾞﾟ一-龠]*$"
+        case name_kana:
+            numR = 10
+            strR = "^[ぁ-んァ-ヶｱ-ﾝﾞﾟ]*$"
+            print("KANA")
+        case name_eng:
+            numR = 10
+            strR = "^[a-zA-Z]*$"
+        default:
+            numR = 10
+            strR = "^[a-zA-Z]*$"
         }
         
+        // max length
+         guard changed.count <= numR else {
+             return false
+         }
+        print("length OK, Exp:",strR)
+        
+        // 入力制限
+         let patternStr = strR //!!
+         return changed.range(of: patternStr, options: .regularExpression) != nil
         
     }
     

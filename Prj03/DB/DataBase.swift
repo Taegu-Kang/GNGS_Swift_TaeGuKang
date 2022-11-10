@@ -13,6 +13,7 @@ class Database {
     var db: OpaquePointer?
     let dbfile: String = "sample.db"
     
+    //
     func openDB() {
         let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(self.dbfile)
         if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
@@ -22,6 +23,7 @@ class Database {
         }
     }
     
+    //
     func createTable() {
         let createTable =
         "CREATE TABLE USER_TABLE (USER_NUM TEXT, USER_ID TEXT, USER_PASS TEXT, NAME_KZ TEXT, NAME_KANA TEXT, NAME_ENG TEXT, TELL TEXT, GENDER INTEGER, POSITION INTEGER, TEAM INTEGER, MAGAZINE INTEGER, MEMO TEXT, INSERT_DATE TEXT, UPDATE_DATE TEXT)"
@@ -33,7 +35,7 @@ class Database {
         }
     }
         
-    //insertCSV (arr[])
+    //insertCSV ([User])
     func insertCSV(userArr: [User]) {
         var stmt: OpaquePointer?
         
@@ -159,9 +161,17 @@ class Database {
             let posi  = Int8(sqlite3_column_int(stmt, 8))
             let team  = Int8(sqlite3_column_int(stmt, 9))
             let mgz  = Int8(sqlite3_column_int(stmt, 10))
-            //let memo  = String(cString: sqlite3_column_text(stmt, 11))
+            //String(cString: sqlite3_column_text(stmt, 11))
             
-            let item = User(USER_NUM: user_num, USER_ID: user_id, USER_PASS: "", NAME_KZ: kz, NAME_KANA: kana, NAME_ENG: eng, TELL: tell, GENDER: gen, POSITION: posi, TEAM: team, MAGAZINE: mgz, MEMO: "", INSERT_DATE: "")
+            let memo:String = ""
+            
+//            memo = String(cString: sqlite3_column_text(stmt, 11))
+            
+//            memo = String(cString: sqlite3_column_text(stmt, 11))
+            
+//            var memo  = String(cString: sqlite3_column_text(stmt, 11))
+            
+            let item = User(USER_NUM: user_num, USER_ID: user_id, USER_PASS: "", NAME_KZ: kz, NAME_KANA: kana, NAME_ENG: eng, TELL: tell, GENDER: gen, POSITION: posi, TEAM: team, MAGAZINE: mgz, MEMO: memo, INSERT_DATE: "")
 
             userArr.append(item)
             
@@ -209,13 +219,11 @@ class Database {
         
         print(inser_date)
         
-        
-        
             //社員番号(USER_NUM)(PK) generate   ->  CLASS 作ります。
             let nextUser = numCheck()
         
         
-            let queryString = "INSERT INTO USER_TABLE (USER_NUM, USER_ID, USER_PASS, NAME_KZ, NAME_KANA, NAME_ENG,  TELL, GENDER , POSITION , TEAM , MAGAZINE, INSERT_DATE) VALUES ('\(nextUser)','\(user.USER_ID)','\(user.USER_PASS)','\(user.NAME_KZ)','\(user.NAME_KANA)','\(user.NAME_ENG)','\(user.TELL)','\(user.GENDER)','\(user.POSITION)',\(user.TEAM),\(user.MAGAZINE),'\(inser_date)')"
+        let queryString = "INSERT INTO USER_TABLE (USER_NUM, USER_ID, USER_PASS, NAME_KZ, NAME_KANA, NAME_ENG,  TELL, GENDER , POSITION , TEAM , MAGAZINE, INSERT_DATE, MEMO) VALUES ('\(nextUser)','\(user.USER_ID)','\(user.USER_PASS)','\(user.NAME_KZ)','\(user.NAME_KANA)','\(user.NAME_ENG)','\(user.TELL)','\(user.GENDER)','\(user.POSITION)',\(user.TEAM),\(user.MAGAZINE),'\(inser_date)','\(user.MEMO)')"
             
             print("query :" + queryString)
             
@@ -236,9 +244,9 @@ class Database {
     }
     
     
-    //USER_NUM redundant_check
+    //USER_NUM redundant_check&return Next_Number
     func numCheck()->String{
-        let queryString = "SELECT * from USER_TABLE ORDER BY DESC USER_NUM DESC LIMIT 1"
+        let queryString = "SELECT * from USER_TABLE ORDER BY USER_NUM DESC LIMIT 1"
         
         var nextUser:String = ""
         
@@ -269,7 +277,26 @@ class Database {
         return nextUser
     }
     
-    
+    //ID 重複チェック
+    func idCheck(id:String)-> Int{
+        let queryString = "SELECT * FROM USER_TABLE WHERE USER_ID='\(id)'"
+        
+        var stmt:OpaquePointer?
+        var flag:Int = 0
+        
+        // クエリを準備する
+        if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK{
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("error preparing insert: \(errmsg)")
+        }
+        // クエリを実行し、取得したレコードをループする
+        if(sqlite3_step(stmt) == SQLITE_ROW){
+            flag = 1
+        }else{
+            flag = -1
+        }
+        return flag
+    }
     
     
     //

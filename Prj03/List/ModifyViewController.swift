@@ -222,6 +222,8 @@ class ModifyViewController: UIViewController {
 //        //mail magazine
         mgz()
         
+        print("didLoad -> switch Bool :", switchBool)
+        
         //入力制限 delegate
      //user_id.delegate = self
         
@@ -260,9 +262,12 @@ class ModifyViewController: UIViewController {
     
     //Gender
     func mgz(){
+        print("mgz_modify:",user.MAGAZINE)
         if(user.MAGAZINE == 0){
-            switchBool = false
+            //switchBool = false
             switchBool.toggle()
+//            uiSwitch.offImage
+            print(switchBool)
         }
     }
     
@@ -606,6 +611,8 @@ class ModifyViewController: UIViewController {
             
             self.presentingViewController?.dismiss(animated: true)
             //refresh(?)
+            
+            
             
             
             
