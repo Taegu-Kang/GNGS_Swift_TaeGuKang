@@ -47,6 +47,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         loadData()
         
+    
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,6 +57,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
         loadData()
 
+        
         self.tableView.reloadData()
     }
     
@@ -207,7 +210,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
             let item = SyainnValueSample(syaNum: user.USER_NUM, name: user.NAME_KZ, yaku: posi, syozoku: team)
             //dbArr
-            
             
             self.dataArr.append(item)
         }

@@ -16,6 +16,9 @@ class Database {
     //
     func openDB() {
         let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(self.dbfile)
+        
+        print("DBfile PATH：\n",fileURL.path)
+        
         if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
             print("DBファイルが見つからず、生成もできません。")
         } else {
@@ -23,10 +26,18 @@ class Database {
         }
     }
     
+    //close
+    //
+    func closeDB(){
+        sqlite3_close(db)
+    }
+    
     //
     func createTable() {
         let createTable =
-        "CREATE TABLE USER_TABLE (USER_NUM TEXT, USER_ID TEXT, USER_PASS TEXT, NAME_KZ TEXT, NAME_KANA TEXT, NAME_ENG TEXT, TELL TEXT, GENDER INTEGER, POSITION INTEGER, TEAM INTEGER, MAGAZINE INTEGER, MEMO TEXT, INSERT_DATE TEXT, UPDATE_DATE TEXT)"
+        "CREATE TABLE USER_TABLE (USER_NUM TEXT PRIMARY KEY, USER_ID TEXT UNIQUE, USER_PASS TEXT, NAME_KZ TEXT, NAME_KANA TEXT, NAME_ENG TEXT, TELL TEXT, GENDER INTEGER, POSITION INTEGER, TEAM INTEGER, MAGAZINE INTEGER, MEMO TEXT, INSERT_DATE TEXT, UPDATE_DATE TEXT)"
+        
+        //+ PK, UK
         
         if sqlite3_exec(db, createTable, nil, nil, nil) != SQLITE_OK {
             print("テーブルの作成に失敗しました。")
@@ -74,6 +85,7 @@ class Database {
         print("データが登録されました")
     }
     
+    //MARK: LOGIN
     //Login _ Select
     func login(id:String, pw:String)-> Int{
         let queryString = "SELECT * FROM USER_TABLE WHERE USER_ID='\(id)'"
@@ -106,6 +118,9 @@ class Database {
         }else{
             flag = -1
         }
+        
+
+
         return flag
     }
     
@@ -263,7 +278,7 @@ class Database {
         while(sqlite3_step(stmt) == SQLITE_ROW){
             nextUser = String(cString: sqlite3_column_text(stmt, 0))
 
-            print("USER_NUM : \(nextUser)")
+            print("LAST USER_NUM : \(nextUser)")
         }
         
         var arr:[String] = []
@@ -273,6 +288,8 @@ class Database {
         arr[1] = String(Int(arr[1])! + 1 )
         
         nextUser = arr[0] + "-" + arr[1]
+        
+        print("NEXT USER_NUM : \(nextUser)")
         
         return nextUser
     }
@@ -289,6 +306,7 @@ class Database {
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             print("error preparing insert: \(errmsg)")
         }
+        
         // クエリを実行し、取得したレコードをループする
         if(sqlite3_step(stmt) == SQLITE_ROW){
             flag = 1

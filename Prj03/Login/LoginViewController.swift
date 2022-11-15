@@ -42,6 +42,9 @@ class LoginViewController: UIViewController {
         
         //ログイン
         guard loginCheck(flag: flag) else { return }
+        print("ログイン成功")
+        
+//        database.closeDB()
         
         //segue
         self.performSegue(withIdentifier: "showListMember", sender: nil)
@@ -67,6 +70,7 @@ class LoginViewController: UIViewController {
         var data_flag:Int = 3
         data_flag = database.dataCheck()
         
+    
         if(data_flag == 0 ){
             //データがい無い時
             database.createTable()
@@ -75,6 +79,8 @@ class LoginViewController: UIViewController {
             database.insertCSV(userArr: dataArr)
             
             print("「RELOADED FROM CSV FILE」")
+        }else{
+            print(" CSV LOAD FAIL : もうすでに、DBが存在しています。")
         }
     }
     
@@ -211,7 +217,13 @@ class LoginViewController: UIViewController {
         
 //          let aaa = arr[7] == nil ? 1 : Int8(arr[7]) ?? 1
             
+            
+            
+            //print(csvArr[numInt])
+            
+            
             var gen: Int8 = 3
+            
             if(arr[7] == "1"){
                 gen = 1
             }else{

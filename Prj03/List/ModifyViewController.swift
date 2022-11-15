@@ -283,8 +283,6 @@ class ModifyViewController: UIViewController {
         while(telArr.count < 3 ){
             telArr.append("")
         }
-        
-        
     }
         
         
@@ -293,6 +291,7 @@ class ModifyViewController: UIViewController {
     @objc func dismissKeyboard() {
         self.view.endEditing(true)
     }
+    
     @objc func keyboardWillShow(notification: NSNotification) {
             
         
@@ -319,9 +318,8 @@ class ModifyViewController: UIViewController {
             let y = self.innerView.frame.height - self.scrollView.frame.height + (-90) + keyboardFrame
             self.scrollView.contentOffset = CGPoint(x: 0, y: y)
         }
-        
-        
     }
+    
     
     @objc func keyboardWillHide(notification: NSNotification) {
         /*if self.view.frame.origin.y != 0 {
@@ -334,6 +332,7 @@ class ModifyViewController: UIViewController {
         )
     }
     
+    
     //keyboard _ return key //
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let nextTag = textField.tag + 1
@@ -343,7 +342,6 @@ class ModifyViewController: UIViewController {
         } else {
             textField.resignFirstResponder()
         }
-        
         return true
     }
     

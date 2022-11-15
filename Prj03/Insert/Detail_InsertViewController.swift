@@ -7,7 +7,7 @@
 
 import UIKit
 
-class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     //DB
     var database = Database()
@@ -39,9 +39,37 @@ class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITabl
         // Do any additional setup after loading the view.
     }
     
-    @IBAction func backButton(_ sender: Any) {
-        self.presentingViewController?.dismiss(animated: true)
+    let dataFlag2:Int = 1
+    
+    @IBAction func backButton2(_ sender: Any) {
+        performSegue(withIdentifier: "Unwind", sender: sender)
     }
+    
+    
+//    @IBAction func backButton(_ unwind: UIStoryboardSegue) {
+//        //textfield clear でき無いように。
+//
+//        print("---- backButton ----")
+//
+////        let preVC = self.navigationController?.parent
+//
+////        guard let vc = unwind.source as? InsertViewController else {
+////            return
+////        }
+////
+////        vc.dataFlag = 1
+//
+//
+////        self.navigationController?.popViewController(animated: true)
+//
+////        self.navigationController?.popToRootViewController(animated: true)
+//
+////        self.presentingViewController?.dismiss(animated: true)
+//
+//    }
+    
+    
+
     
     @IBAction func insertButton(_ sender: Any) {
         //DB
@@ -49,27 +77,15 @@ class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITabl
         
         database.insertUser(user: user)
         
-        //self.presentingViewController?.dismiss(animated: true)
+        //textField 内容消す。クロージャー
         
-        //perform segue
         
-        self.performSegue(withIdentifier: "showHomeVC", sender: nil)
+        
+        self.presentingViewController?.dismiss(animated: true)
+        
     }
     
-    // MARK: segue prepare
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showHomeVC" {
-//            guard let destination = segue.destination as? Detail_InsertViewController else {
-//                fatalError("Failed to prepare DetailViewController.")
-//            }
-                //data tennsou
-            //destination.insertValue = self.insertValue
-        
-            self.presentingViewController?.dismiss(animated: true)
-        }
-    }
-    
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return detailContext.count
     }
@@ -92,7 +108,6 @@ class Detail_InsertViewController: UIViewController, UITableViewDelegate, UITabl
 //        if(detailContext.array){
 //
 //        }
-        
         label2.text = detailContext[indexPath.item]
     }
 

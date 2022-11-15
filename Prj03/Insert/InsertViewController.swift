@@ -102,6 +102,62 @@ class InsertViewController: UIViewController {
         
     }
     
+    //init , textField
+    func textFieldInit() {
+        id.text = ""
+        pw1.text = ""
+        pw2.text = ""
+        
+        name_kz.text = ""
+        name_kana.text = ""
+        name_eng.text = ""
+        
+        tel1.text = ""
+        tel2.text = ""
+        tel3.text = ""
+        
+        syokuTextField.text = "平社員"
+        syozokuTextField.text = "第１チーム"
+    }
+    
+    //
+    var dataFlag:Int = 0
+    //
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("入力画面viewWillAppear")
+        
+        print("dataFlag:",dataFlag)
+        
+        if(dataFlag == 1){
+            print("x button 押す")
+        }else{
+           textFieldInit()
+        }
+        
+        dataFlag = 0
+        
+        print("dataFlag:",dataFlag)
+        
+    }
+    
+    @IBAction func exitSegue(segue : UIStoryboardSegue){
+        
+        let vc = segue.source as? Detail_InsertViewController
+        
+        print("dataFlag2:",vc!.dataFlag2)
+        
+        dataFlag = vc!.dataFlag2
+    }
+    
+    
+//    override func viewDidDisappear(_ animated: Bool) {
+//        print("入力画面viewDidDisappear")
+//
+//        textFieldInit()
+//    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //scroll
@@ -254,6 +310,7 @@ class InsertViewController: UIViewController {
         maleRadio.setImage(maleRadio.isSelected ? ChkMale : noneChkMale, for: .normal)
         femaleRadio.setImage(femaleRadio.isSelected ? ChkFemale : noneChkFemale, for: .normal)
     }
+    
         //female Button
     @IBAction func femaleRadioAction(_ sender: Any) {
         femaleRadio.isSelected = true
@@ -478,14 +535,13 @@ class InsertViewController: UIViewController {
         print("pw Flag : ",  pwValiFlag)
         print("yakkann Flag : ",  yakkannCheckFlag)
         
-        if(idValiFlag && pwValiFlag && nameValiFlag && telValidation() && yakkannCheckFlag ){
+        if(idValiFlag && pwValiFlag && nameValiFlag && telValiFlag && yakkannCheckFlag ){
             print("All PASS")
             //入力したデータ
 //            insertValue = InsertValue(id: id.text!, syoku: syokuTextField.text!,
 //            gender: maleBool, mail_magazine: switchBool, yakkann: true, memo: memo.text!)
             
             //入力したデータ
-            
             let tel:String = tel1.text! + "-" + tel2.text! + "-" + tel3.text!
             
             var gen:Int8 = 7
