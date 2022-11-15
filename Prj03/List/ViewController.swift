@@ -41,11 +41,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        loadData()
 //        loadData2()
         
-        // DB -> dataArr 
-        database.openDB()
-        dbArr = database.selectAll()
+        // DB -> dataArr
         
-        loadData()
+        
+//        database.openDB()
+//        dbArr = database.selectAll()
+//
+//        loadData()
         
     
         
@@ -54,7 +56,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewWillAppear(_ animated: Bool) {
         database.openDB()
         dbArr = database.selectAll()
-
+        database.closeDB()
+        
         loadData()
 
         

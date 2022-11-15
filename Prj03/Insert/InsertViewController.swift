@@ -373,17 +373,24 @@ class InsertViewController: UIViewController {
            return false
         }
         
-        if id.text!.isEmpty, id.text! == "" {
-            alert = UIAlertController(title: "IDを入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
-            
+       
+//        var idCheck:Int = 0
+//        let idIP:String = id.text!
+        
+        //ID 重複チェック
+        let idCheck = database.idCheck(idIP: id.text!)
+
+        if idCheck == 1 {
+            alert = UIAlertController(title: "そのIDは既に存在しています。他のIDを使用してください。", message: "", preferredStyle: UIAlertController.Style.alert)
+
             let idAlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
                 self.id.becomeFirstResponder()
             })
-            
+
             alert.addAction(idAlertAction)
-            
+
             self.present(alert, animated: true, completion: nil)
-            
+
             return false
         }
         
@@ -459,15 +466,15 @@ class InsertViewController: UIViewController {
     func nameValidation() -> Bool {
         //空白チェック
         if name_kz.text!.isEmpty, name_kz.text! == "" {
-            alertMessage(title: "name_kzを入力してください。", textFd: name_kz)
+            alertMessage(title: "名前(漢字)を入力してください。", textFd: name_kz)
             return false
         }
         if name_kana.text!.isEmpty, name_kana.text! == "" {
-            alertMessage(title: "name_kanaを入力してください。", textFd: name_kana)
+            alertMessage(title: "名前(カナ)を入力してください。", textFd: name_kana)
             return false
         }
         if name_eng.text!.isEmpty, name_eng.text! == "" {
-            alertMessage(title: "name_engを入力してください。", textFd: name_eng)
+            alertMessage(title: "名前(英語)を入力してください。", textFd: name_eng)
             return false
         }
         return true
@@ -476,15 +483,15 @@ class InsertViewController: UIViewController {
     func telValidation() -> Bool {
         //空白チェック
         if tel1.text!.isEmpty, tel1.text! == "" {
-            alertMessage(title: "tel1を入力してください。", textFd: tel1)
+            alertMessage(title: "電話番号(1)を入力してください。", textFd: tel1)
             return false
         }
         if tel2.text!.isEmpty, tel2.text! == "" {
-            alertMessage(title: "tel2を入力してください。", textFd: tel2)
+            alertMessage(title: "電話番号(2)を入力してください。", textFd: tel2)
             return false
         }
         if tel3.text!.isEmpty, tel3.text! == "" {
-            alertMessage(title: "tel3を入力してください。", textFd: tel3)
+            alertMessage(title: "電話番号(3)を入力してください。", textFd: tel3)
             return false
         }
         return true
@@ -736,6 +743,11 @@ extension InsertViewController: UIPickerViewDataSource, UIPickerViewDelegate, UI
         var strR:String = ""
         
         switch textField {
+            
+        case id:
+            numR = 50
+            strR = "^[a-zA-Z]*$"
+            print("id input")
         case name_kz:
             numR = 10
             strR = "^[ぁ-んァ-ヶｱ-ﾝﾞﾟ一-龠]*$"

@@ -138,7 +138,7 @@ class ModifyViewController: UIViewController {
         tel3.text = telArr[2]
         
         //
-        database.openDB()
+        
 
         
         //scroll
@@ -476,7 +476,7 @@ class ModifyViewController: UIViewController {
     func telVali() -> Bool {
         //空白チェック pw1
         if tel1.text!.isEmpty, tel1.text! == "" {
-            alert = UIAlertController(title: "電話番号を入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
+            alert = UIAlertController(title: "電話番号(1)を入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
             
             let pw1AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
                 self.tel1.becomeFirstResponder()
@@ -492,7 +492,7 @@ class ModifyViewController: UIViewController {
 
         //空白チェック pw2
         if tel2.text!.isEmpty, tel2.text! == "" {
-            alert = UIAlertController(title: "電話番号を入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
+            alert = UIAlertController(title: "電話番号(2)を入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
             
             let pw2AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
                 self.tel1.becomeFirstResponder()
@@ -506,7 +506,7 @@ class ModifyViewController: UIViewController {
         }
         //pw1,pw2 一致性チェック
         if tel3.text!.isEmpty, tel3.text! == "" {
-            alert = UIAlertController(title: "電話番号を入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
+            alert = UIAlertController(title: "電話番号(3)を入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
             
             let pw2AlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
                 self.tel3.becomeFirstResponder()
@@ -605,7 +605,9 @@ class ModifyViewController: UIViewController {
             //User Object 準備
             let user:User = User(USER_NUM: user_num.text!, USER_ID: "", USER_PASS: "", NAME_KZ: name_kz.text!, NAME_KANA: name_kana.text!, NAME_ENG: name_eng.text!, TELL: tel, GENDER: gen, POSITION: posi, TEAM: team, MAGAZINE: mgz, MEMO: memo.text!, INSERT_DATE: "")
             
+            database.openDB()
             database.update(user: user)
+            database.closeDB()
             
             self.presentingViewController?.dismiss(animated: true)
             //refresh(?)
