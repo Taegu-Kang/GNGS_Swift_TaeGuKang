@@ -116,8 +116,24 @@ class InsertViewController: UIViewController {
         tel2.text = ""
         tel3.text = ""
         
+        //性別radio button default値
+        maleRadio.isSelected = true
+        maleRadio.setImage(maleRadio.isSelected ? ChkMale : noneChkMale, for: .normal)
+        femaleRadio.isSelected = false
+        femaleRadio.setImage(femaleRadio.isSelected ? ChkFemale : noneChkFemale, for: .normal)
+        
         syokuTextField.text = "平社員"
         syozokuTextField.text = "第１チーム"
+        
+        //magazine
+        uiSwitch.setOn(true, animated: false)
+        switchBool = true
+        
+        //checkBox default値
+        checkBox.isSelected = false
+        checkBox.setImage(checkBox.isSelected ? checkImage : noneCheckImage, for: .normal)
+        
+        memo.text = ""
     }
     
     //
@@ -197,7 +213,7 @@ class InsertViewController: UIViewController {
         femaleRadio.setImage(femaleRadio.isSelected ? ChkFemale : noneChkFemale, for: .normal)
         
         //入力制限 delegate
-//        id.delegate = self
+        id.delegate = self
 //        pw1.delegate = self
 //        pw2.delegate = self
         
@@ -381,7 +397,7 @@ class InsertViewController: UIViewController {
         let idCheck = database.idCheck(idIP: id.text!)
 
         if idCheck == 1 {
-            alert = UIAlertController(title: "そのIDは既に存在しています。他のIDを使用してください。", message: "", preferredStyle: UIAlertController.Style.alert)
+            alert = UIAlertController(title: "そのIDは既に存在しています。他のIDを使ってください。", message: "", preferredStyle: UIAlertController.Style.alert)
 
             let idAlertAction : UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
                 self.id.becomeFirstResponder()
@@ -746,7 +762,7 @@ extension InsertViewController: UIPickerViewDataSource, UIPickerViewDelegate, UI
             
         case id:
             numR = 50
-            strR = "^[a-zA-Z]*$"
+            strR = "^[a-zA-Z0-9@.]*$"
             print("id input")
         case name_kz:
             numR = 10

@@ -26,6 +26,7 @@ class Database {
         }
     }
     
+    
     //close
     //
     
@@ -66,7 +67,7 @@ class Database {
 //            }else{arr[x].GENDER = "0"
 //            }
             
-            let queryString = "INSERT INTO USER_TABLE (USER_NUM, USER_ID, USER_PASS, NAME_KZ, NAME_KANA, NAME_ENG,  TELL, GENDER , POSITION , TEAM , MAGAZINE, INSERT_DATE) VALUES ('\(userArr[x].USER_NUM)','\(userArr[x].USER_ID)','\(userArr[x].USER_PASS)','\(userArr[x].NAME_KZ)','\(userArr[x].NAME_KANA)','\(userArr[x].NAME_ENG)','\(userArr[x].TELL)','\(userArr[x].GENDER)','\(userArr[x].POSITION)',\(userArr[x].TEAM),\(userArr[x].MAGAZINE),'\(userArr[x].INSERT_DATE)')"
+            let queryString = "INSERT INTO USER_TABLE (USER_NUM, USER_ID, USER_PASS, NAME_KZ, NAME_KANA, NAME_ENG,  TELL, GENDER , POSITION , TEAM , MAGAZINE, INSERT_DATE, MEMO) VALUES ('\(userArr[x].USER_NUM)','\(userArr[x].USER_ID)','\(userArr[x].USER_PASS)','\(userArr[x].NAME_KZ)','\(userArr[x].NAME_KANA)','\(userArr[x].NAME_ENG)','\(userArr[x].TELL)','\(userArr[x].GENDER)','\(userArr[x].POSITION)',\(userArr[x].TEAM),\(userArr[x].MAGAZINE),'\(userArr[x].INSERT_DATE)','')"
             
             print("query :" + queryString)
             
@@ -108,6 +109,7 @@ class Database {
         // クエリを実行し、取得したレコードをループする
         if(sqlite3_step(stmt) == SQLITE_ROW){
             flag = 1
+            sqlite3_finalize(stmt)
             
             let queryString = "SELECT * FROM USER_TABLE WHERE USER_PASS='\(pw)'"
             // クエリを準備する
@@ -143,7 +145,7 @@ class Database {
         // クエリを準備する
         if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK{
             let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error preparing insert: \(errmsg)")
+            print("dataCheck() error preparing insert: \(errmsg)")
             return flag
         }
         // クエリを実行し、取得したレコードをループする
@@ -189,13 +191,31 @@ class Database {
             let mgz  = Int8(sqlite3_column_int(stmt, 10))
             //String(cString: sqlite3_column_text(stmt, 11))
             
-            let memo:String = ""
+//            var memo:String? = ""
             
-//            memo = String(cString: sqlite3_column_text(stmt, 11))
+            let memo = String(cString: sqlite3_column_text(stmt, 11)!)
             
-//            memo = String(cString: sqlite3_column_text(stmt, 11))
+//            var memo = String(cString: sqlite3_column_text(stmt, 11))
             
-//            var memo  = String(cString: sqlite3_column_text(stmt, 11))
+//            if let memo = String(cString: sqlite3_column_text(stmt, 11)) {
+//            }else{
+//                memo = ""
+//            }
+            
+            //OPIONAL BIDING
+//            var memo11 = ""
+//            let memoOP:String? = String(cString: sqlite3_column_text(stmt, 11))
+//
+//            if let memo = memoOP {
+//                print("memoOP not nill")
+//                memo11 = memo
+//            }else{
+//                print("memoOP is nill : \"\"")
+//            }
+            
+            
+            
+            
             
             let item = User(USER_NUM: user_num, USER_ID: user_id, USER_PASS: "", NAME_KZ: kz, NAME_KANA: kana, NAME_ENG: eng, TELL: tell, GENDER: gen, POSITION: posi, TEAM: team, MAGAZINE: mgz, MEMO: memo, INSERT_DATE: "")
 

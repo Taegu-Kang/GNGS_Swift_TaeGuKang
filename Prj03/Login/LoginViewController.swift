@@ -20,7 +20,6 @@ class LoginViewController: UIViewController {
     //csv用の Arrayを用意します。
     var csvArr: [String] = []
     
-    
     var dataArr: [User] = []
     
     // ----------------
@@ -38,8 +37,9 @@ class LoginViewController: UIViewController {
         //Login Flag
         var flag:Int = 10//初期値
         
-        database.openDB()
+//        database.openDB()
         
+        database.openDB()
         flag = database.login(id: idA, pw: pwA)
         print("Login_flag :", flag)
         
@@ -60,10 +60,9 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        database.openDB()
-
-//
         loadDataCheck()
+        
+        id.delegate = self
 
         // Do any additional setup after loading the view.
     }
@@ -72,17 +71,26 @@ class LoginViewController: UIViewController {
     //データチェック
     func loadDataCheck() {
         var data_flag:Int = 3
+//        database.openDB()
+        
+        database.openDB()
+        
         data_flag = database.dataCheck()
         
         database.closeDB()
+        
+        print("data_flag:",data_flag)
         
         if(data_flag == 0 ){
             //データがい無い時
             database.openDB()
             database.createTable()
             database.closeDB()
-            csvArr = loadCSV(fileName: "dataList2")
+            
+            
+            csvArr = loadCSV(fileName: "dataList3")
             loadData()
+            
             database.openDB()
             database.insertCSV(userArr: dataArr)
             database.closeDB()
@@ -242,13 +250,50 @@ class LoginViewController: UIViewController {
             
             let posi = Int8(arr[8])!
             
-            print("CSV :" + arr[10])
+//            print("CSV :" + arr[10])
             
             let item = User(USER_NUM: arr[0], USER_ID: arr[1], USER_PASS: arr[2], NAME_KZ: arr[3], NAME_KANA: arr[4], NAME_ENG: arr[5], TELL: arr[6], GENDER: gen, POSITION: posi, TEAM: team, MAGAZINE: 0, MEMO: "", INSERT_DATE: arr[10])
 
             self.dataArr.append(item)
         }
     }
-    
+}
 
+extension LoginViewController: UITextFieldDelegate {
+    
+    //MARK: KeyBoard Input restrict
+    //入力制限　関連
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        print(string)
+        
+        let currStr = textField.text! as NSString
+        let changed = currStr.replacingCharacters(in: range, with: string)
+        
+        var numR:Int = 0
+        var strR:String = ""
+        
+        switch textField {
+            
+        case id:
+            numR = 50
+            strR = "^[a-zA-Z0-9@.]*$"
+            print("id input")
+
+        default:
+            numR = 50
+            strR = "^[a-zA-Z0-9@.]*$"
+        }
+        
+        // max length
+         guard changed.count <= numR else {
+             return false
+         }
+        print("length OK, Exp:",strR)
+        
+        // 入力制限
+         let patternStr = strR //!!
+         return changed.range(of: patternStr, options: .regularExpression) != nil
+        
+    }
 }

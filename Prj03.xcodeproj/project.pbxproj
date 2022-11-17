@@ -10,7 +10,6 @@
 		0F18D24328CA9F36002E07E5 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F18D24228CA9F36002E07E5 /* TableViewCell.xib */; };
 		0F18D24528CAA4AD002E07E5 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F18D24428CAA4AD002E07E5 /* TableViewCell.swift */; };
 		0F18D24828CAC16B002E07E5 /* SyainnValueSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F18D24728CAC16B002E07E5 /* SyainnValueSample.swift */; };
-		0F195C45290907690032C756 /* dataList2.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0F195C44290907690032C756 /* dataList2.csv */; };
 		0F2702B028D1D00B00F7FC0C /* InsertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F2702AF28D1D00B00F7FC0C /* InsertViewController.swift */; };
 		0F28004C28C846C8000845C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F28004B28C846C8000845C6 /* AppDelegate.swift */; };
 		0F28004E28C846C8000845C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F28004D28C846C8000845C6 /* SceneDelegate.swift */; };
@@ -28,13 +27,13 @@
 		0F988A7F28FE427D006370A5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F988A7E28FE427D006370A5 /* LoginViewController.swift */; };
 		0F988A8328FE446F006370A5 /* G&GServiceLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F988A8228FE446F006370A5 /* G&GServiceLogo.png */; };
 		0FA175BE2901942F00BD6B89 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA175BD2901942F00BD6B89 /* User.swift */; };
+		0FAD8240292488DD00BBAD96 /* dataList3.csv in Resources */ = {isa = PBXBuildFile; fileRef = 0FAD823F292488DD00BBAD96 /* dataList3.csv */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0F18D24228CA9F36002E07E5 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		0F18D24428CAA4AD002E07E5 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		0F18D24728CAC16B002E07E5 /* SyainnValueSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyainnValueSample.swift; sourceTree = "<group>"; };
-		0F195C44290907690032C756 /* dataList2.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dataList2.csv; sourceTree = "<group>"; };
 		0F2702AF28D1D00B00F7FC0C /* InsertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertViewController.swift; sourceTree = "<group>"; };
 		0F28004828C846C8000845C6 /* Prj03.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Prj03.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F28004B28C846C8000845C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -54,6 +53,7 @@
 		0F988A7E28FE427D006370A5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		0F988A8228FE446F006370A5 /* G&GServiceLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "G&GServiceLogo.png"; sourceTree = "<group>"; };
 		0FA175BD2901942F00BD6B89 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		0FAD823F292488DD00BBAD96 /* dataList3.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dataList3.csv; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,7 +144,7 @@
 		0F28006228C871EC000845C6 /* CSV */ = {
 			isa = PBXGroup;
 			children = (
-				0F195C44290907690032C756 /* dataList2.csv */,
+				0FAD823F292488DD00BBAD96 /* dataList3.csv */,
 				0F378CE328CF320000816935 /* SyainnValue.swift */,
 			);
 			path = CSV;
@@ -250,7 +250,7 @@
 				0F28005828C846C9000845C6 /* LaunchScreen.storyboard in Resources */,
 				0F988A8328FE446F006370A5 /* G&GServiceLogo.png in Resources */,
 				0F18D24328CA9F36002E07E5 /* TableViewCell.xib in Resources */,
-				0F195C45290907690032C756 /* dataList2.csv in Resources */,
+				0FAD8240292488DD00BBAD96 /* dataList3.csv in Resources */,
 				0F28005528C846C9000845C6 /* Assets.xcassets in Resources */,
 				0F28005328C846C8000845C6 /* Main.storyboard in Resources */,
 			);

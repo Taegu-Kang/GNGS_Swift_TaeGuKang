@@ -48,16 +48,27 @@ class WebViewController: UIViewController {
         forwardButton.tintColor =
         (webView.canGoForward ? UIColor.blue : UIColor.gray)
         
+        refreshButton.tintColor = UIColor.blue
+        
         
         //webView
         webView.navigationDelegate = self
         webView.scrollView.delegate = self
+        
+        //
+        self.webView.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
+        
+        backButton.isEnabled = false
+        forwardButton.isEnabled = false
+        
     }
     
     //
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        
     }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
@@ -82,18 +93,21 @@ class WebViewController: UIViewController {
             self.webView.goBack()
         }
         
+//        self.webView.reload()
         
-        if(self.webView.canGoForward){
-            forwardButton.tintColor = UIColor.blue
-        }else{
-            forwardButton.tintColor = UIColor.gray
-        }
-        
-        if(self.webView.canGoBack){
-            backButton.tintColor = UIColor.blue
-        }else{
-            backButton.tintColor = UIColor.gray
-        }
+        //
+//        if(self.webView.canGoForward){
+//            forwardButton.tintColor = UIColor.blue
+//        }else{
+//            forwardButton.tintColor = UIColor.gray
+//        }
+//        
+//        
+//        if(self.webView.canGoBack){
+//            backButton.tintColor = UIColor.blue
+//        }else{
+//            backButton.tintColor = UIColor.gray
+//        }
     }
     
     
@@ -103,21 +117,24 @@ class WebViewController: UIViewController {
             
         }
         
+//        self.webView.reload()
         
-        if(self.webView.canGoForward){
-            forwardButton.tintColor = UIColor.blue
-        }else{
-            forwardButton.tintColor = UIColor.gray
-        }
-        
-        if(self.webView.canGoBack){
-            backButton.tintColor = UIColor.blue
-        }else{
-            backButton.tintColor = UIColor.gray
-        }
+        //
+//        if(self.webView.canGoForward){
+//            forwardButton.tintColor = UIColor.blue
+//        }else{
+//            forwardButton.tintColor = UIColor.gray
+//        }
+//
+//        if(self.webView.canGoBack){
+//            backButton.tintColor = UIColor.blue
+//        }else{
+//            backButton.tintColor = UIColor.gray
+//        }
         
         
     }
+    
     @IBAction func refreshAct(_ sender: Any) {
         self.webView.reload()
     }
@@ -173,14 +190,54 @@ extension WebViewController : WKNavigationDelegate,UIScrollViewDelegate{
         })
         
     }
+    
+    
+    
+    //webView delegate
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
-        backButton.tintColor =
-        (webView.canGoBack ? UIColor.blue : UIColor.gray)
+        //活性化、非活性化
+        
+        if(webView.canGoBack){
+            backButton.isEnabled = true
+            backButton.tintColor = UIColor.blue
+        }else{
+            backButton.isEnabled = false
+            backButton.tintColor = UIColor.gray
+        }
+        
+//        backButton.tintColor =
+//        (webView.canGoBack ? UIColor.blue : UIColor.gray)
         
         
-        forwardButton.tintColor =
-        (webView.canGoForward ? UIColor.blue : UIColor.gray)
+        if(webView.canGoForward){
+            forwardButton.isEnabled = true
+            forwardButton.tintColor = UIColor.blue
+        }else{
+            forwardButton.isEnabled = false
+            forwardButton.tintColor = UIColor.gray
+        }
+        
+//        forwardButton.tintColor =
+//        (webView.canGoForward ? UIColor.blue : UIColor.gray)
+        
+        
+    }
+    
+    
+    //URL TRACKing
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == #keyPath(WKWebView.url) {
+            guard let url = self.webView.url?.absoluteString else {
+                return
+            }
+            
+         print(url)
+//       if(url)
+            
+//       self.webView.reload()
+
+        }
     }
     
 }

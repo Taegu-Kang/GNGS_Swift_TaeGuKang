@@ -45,7 +45,7 @@ class ModifyViewController: UIViewController {
     
     //uiSwitch メールマガジン
     @IBOutlet weak var uiSwitch: UISwitch!
-    var switchBool : Bool = true
+    var genderBool : Bool = true
     
     //validation check 項目
     var telValiFlag : Bool = false
@@ -140,7 +140,6 @@ class ModifyViewController: UIViewController {
         //
         
 
-        
         //scroll
         scrollView.contentSize = CGSize(width: formView.frame.width, height: formView.frame.height)
         
@@ -189,20 +188,35 @@ class ModifyViewController: UIViewController {
         syozokuTextField.text = zoku
         selectingText2 = zoku
         
+        
         selectedPickerText2 = zoku
         
         
         //magazine
 //        if(user.MAGAZINE == 0){ switchBool = false }
-            
+        
+        
+        //pickerView delegate 宣言
+        //POSITION
+        syokuPickerView.delegate = self
+        syokuPickerView.dataSource = self
         
         syokuTextField.tintColor = .clear
         syokuTextField.textAlignment = .center
-        
         syokuTextField.inputView = syokuPickerView
         
-//        syokuPickerView.delegate = self
-//        syokuPickerView.dataSource = self
+        self.syokuPickerView.selectRow(Int(user.POSITION)-1, inComponent: 0, animated: true)
+        
+        //TEAM
+        syozokuPickerView.delegate = self
+        syozokuPickerView.dataSource = self
+        
+        syozokuTextField.tintColor = .clear
+        syozokuTextField.textAlignment = .center
+        syozokuTextField.inputView = syokuPickerView
+            
+        self.syozokuPickerView.selectRow(Int(user.TEAM)-1, inComponent: 0, animated: true)
+        
         
         createPickerView()
         dismissPickerView()
@@ -222,7 +236,7 @@ class ModifyViewController: UIViewController {
 //        //mail magazine
         mgz()
         
-        print("didLoad -> switch Bool :", switchBool)
+        print("viewDidLoad -> gender Bool :", genderBool)
         
         //入力制限 delegate
      //user_id.delegate = self
@@ -245,6 +259,10 @@ class ModifyViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
+        //
+        //
+//        self.syokuPickerView.selectRow(Int(user.POSITION) - 1, inComponent: 0, animated: true)
+        
     }
     
     //Gender
@@ -262,12 +280,18 @@ class ModifyViewController: UIViewController {
     
     //Gender
     func mgz(){
-        print("mgz_modify:",user.MAGAZINE)
+        print("user.MAGAZINE:",user.MAGAZINE)
+        
         if(user.MAGAZINE == 0){
             //switchBool = false
-            switchBool.toggle()
+            genderBool.toggle()
+            
+//            uiSwitch.onImage = UIImage(named: "off-switch")
+            uiSwitch.setOn(false, animated: true)
+            
+//            uiSwitch.
 //            uiSwitch.offImage
-            print(switchBool)
+            print("genderBool:",genderBool)
         }
     }
     
@@ -348,8 +372,8 @@ class ModifyViewController: UIViewController {
     
     //switch Toggle
     @IBAction func switchAction(_ sender: Any) {
-        switchBool.toggle()
-        print("switch Bool :", switchBool)
+        genderBool.toggle()
+        print("gender Bool :", genderBool)
     }
   
     
@@ -600,7 +624,7 @@ class ModifyViewController: UIViewController {
                 }
             }
             var mgz:Int8 = 7
-            if(switchBool){ mgz = 1 }else{ mgz = 0 }
+            if(genderBool){ mgz = 1 }else{ mgz = 0 }
             
             //User Object 準備
             let user:User = User(USER_NUM: user_num.text!, USER_ID: "", USER_PASS: "", NAME_KZ: name_kz.text!, NAME_KANA: name_kana.text!, NAME_ENG: name_eng.text!, TELL: tel, GENDER: gen, POSITION: posi, TEAM: team, MAGAZINE: mgz, MEMO: memo.text!, INSERT_DATE: "")
@@ -692,7 +716,8 @@ extension ModifyViewController: UIPickerViewDataSource, UIPickerViewDelegate, UI
     
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        print("PickerViewTag : ",pickerView.tag)
+        
+//        print("PickerViewTag : ",pickerView.tag)
         
         if( pickerView.tag == 1 ){
             return syokuArr.count
@@ -718,24 +743,35 @@ extension ModifyViewController: UIPickerViewDataSource, UIPickerViewDelegate, UI
         
         if( pickerView.tag == 1 ){
             selectingText = syokuArr[row]
+//            selectedPickerText = syokuArr[row]
         } else {
             selectingText2 = syozokuArr[row]
+            
         }
     }
 
     func createPickerView(){
-        let pickerView = UIPickerView()
-        pickerView.delegate = self
-        let pickerView2 = UIPickerView()
-        pickerView2.delegate = self
+//        let pickerView = UIPickerView()
+//        pickerView.delegate = self
+//        let pickerView2 = UIPickerView()
+//        pickerView2.delegate = self
         
         
-            syokuTextField.inputView = pickerView
-            pickerView.tag = 1
+            syokuTextField.inputView = syokuPickerView
+        syokuPickerView.tag = 1
         
-            syozokuTextField.inputView = pickerView2
-            pickerView2.tag = 2
+//            syokuTextField.inputView = pickerView
+//            pickerView.tag = 1
+
         
+        syozokuTextField.inputView = syozokuPickerView
+        syozokuPickerView.tag = 2
+        
+        
+//            syozokuTextField.inputView = pickerView2
+//            pickerView2.tag = 2
+        
+    
 //        syokuTextField.inputView?.tag = 1
 //        syozokuTextField.inputView = pickerView
 //        syozokuTextField.inputView?.tag = 2

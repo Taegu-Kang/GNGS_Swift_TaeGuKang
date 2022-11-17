@@ -24,6 +24,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //
     var dbArr: [User] = []
     
+    let syozokuArr = ["第１チーム","第２チーム","第３チーム","第４チーム","第５チーム","第６チーム"]
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +62,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         loadData()
 
-        
         self.tableView.reloadData()
     }
     
@@ -196,22 +197,30 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             default:
                 posi = "平社員"
             }
-            
-            var team:String = ""
+             
+            var zoku:String = ""
             switch user.TEAM {
-            case 1:
-                team = "第１チーム"
-            case 2:
-                team = "第2チーム"
-            case 3:
-                team = "第3チーム"
-            case 4:
-                team = "第4チーム"
-            default:
-                team = "第１チーム"
-            }
+             case 1:
+                 zoku = syozokuArr[0]
+             case 2:
+                 zoku = syozokuArr[1]
+             case 3:
+                 zoku = syozokuArr[2]
+             case 4:
+                 zoku = syozokuArr[3]
+             case 5:
+                 zoku = syozokuArr[4]
+             case 6:
+                 zoku = syozokuArr[5]
+             default:
+                 zoku = syozokuArr[0]
+             }
+            
+            
+            
+            
 
-            let item = SyainnValueSample(syaNum: user.USER_NUM, name: user.NAME_KZ, yaku: posi, syozoku: team)
+            let item = SyainnValueSample(syaNum: user.USER_NUM, name: user.NAME_KZ, yaku: posi, syozoku: zoku)
             //dbArr
             
             self.dataArr.append(item)
