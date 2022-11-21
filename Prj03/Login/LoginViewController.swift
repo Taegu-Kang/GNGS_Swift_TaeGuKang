@@ -277,7 +277,7 @@ extension LoginViewController: UITextFieldDelegate {
             
         case id:
             numR = 50
-            strR = "^[a-zA-Z0-9@.]*$"
+            strR = "^[a-zA-Z0-9@_.]*$"
             print("id input")
 
         default:

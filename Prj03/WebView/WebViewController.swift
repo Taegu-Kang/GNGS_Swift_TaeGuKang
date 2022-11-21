@@ -43,12 +43,12 @@ class WebViewController: UIViewController {
         refreshButton.setImage(relaodImage, for: .normal)
         
         backButton.tintColor =
-        (webView.canGoBack ? UIColor.blue : UIColor.gray)
+        (webView.canGoBack ? UIColor.systemBlue : UIColor.gray)
         
         forwardButton.tintColor =
-        (webView.canGoForward ? UIColor.blue : UIColor.gray)
+        (webView.canGoForward ? UIColor.systemBlue : UIColor.gray)
         
-        refreshButton.tintColor = UIColor.blue
+        refreshButton.tintColor = UIColor.systemBlue
         
         
         //webView
@@ -58,8 +58,8 @@ class WebViewController: UIViewController {
         //
         self.webView.addObserver(self, forKeyPath: "URL", options: .new, context: nil)
         
-        backButton.isEnabled = false
-        forwardButton.isEnabled = false
+//        backButton.isEnabled = false
+//        forwardButton.isEnabled = false
         
     }
     
@@ -95,19 +95,6 @@ class WebViewController: UIViewController {
         
 //        self.webView.reload()
         
-        //
-//        if(self.webView.canGoForward){
-//            forwardButton.tintColor = UIColor.blue
-//        }else{
-//            forwardButton.tintColor = UIColor.gray
-//        }
-//        
-//        
-//        if(self.webView.canGoBack){
-//            backButton.tintColor = UIColor.blue
-//        }else{
-//            backButton.tintColor = UIColor.gray
-//        }
     }
     
     
@@ -119,25 +106,13 @@ class WebViewController: UIViewController {
         
 //        self.webView.reload()
         
-        //
-//        if(self.webView.canGoForward){
-//            forwardButton.tintColor = UIColor.blue
-//        }else{
-//            forwardButton.tintColor = UIColor.gray
-//        }
-//
-//        if(self.webView.canGoBack){
-//            backButton.tintColor = UIColor.blue
-//        }else{
-//            backButton.tintColor = UIColor.gray
-//        }
-        
-        
     }
     
     @IBAction func refreshAct(_ sender: Any) {
         self.webView.reload()
     }
+    
+    
     
     //
     func updateNaviTollbarPosition(isTabHidden flag:Bool) {
@@ -145,6 +120,8 @@ class WebViewController: UIViewController {
         
         self.naviView.frame = CGRect(x: 0, y: y+50, width: self.view.frame.width, height: self.naviView.frame.height)
     }
+    
+    
 }
 
 enum ScrollAnimation{
@@ -152,7 +129,7 @@ enum ScrollAnimation{
     case downScrolling
 }
 
-
+var beforeHashURL:String = ""
 
 /*
  // MARK: - Navigation
@@ -166,8 +143,6 @@ enum ScrollAnimation{
 
 //MARK: --Delegate
 extension WebViewController : WKNavigationDelegate,UIScrollViewDelegate{
-    
-    
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.scrollStartAt = scrollView.contentOffset.y
@@ -200,7 +175,7 @@ extension WebViewController : WKNavigationDelegate,UIScrollViewDelegate{
         
         if(webView.canGoBack){
             backButton.isEnabled = true
-            backButton.tintColor = UIColor.blue
+            backButton.tintColor = UIColor.systemBlue
         }else{
             backButton.isEnabled = false
             backButton.tintColor = UIColor.gray
@@ -212,7 +187,7 @@ extension WebViewController : WKNavigationDelegate,UIScrollViewDelegate{
         
         if(webView.canGoForward){
             forwardButton.isEnabled = true
-            forwardButton.tintColor = UIColor.blue
+            forwardButton.tintColor = UIColor.systemBlue
         }else{
             forwardButton.isEnabled = false
             forwardButton.tintColor = UIColor.gray
@@ -225,6 +200,7 @@ extension WebViewController : WKNavigationDelegate,UIScrollViewDelegate{
     }
     
     
+    
     //URL TRACKing
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(WKWebView.url) {
@@ -232,11 +208,27 @@ extension WebViewController : WKNavigationDelegate,UIScrollViewDelegate{
                 return
             }
             
-         print(url)
-//       if(url)
-            
-//       self.webView.reload()
+            print(url)
 
+            if(url == "https://gngs.co.jp/" && beforeHashURL == "1"){
+                print("beforeHashURL「1」 && 「#」")
+                beforeHashURL = ""
+                self.webView.reload()
+                return
+            }
+            
+            if(url.contains("results")){
+                beforeHashURL = ""
+                return
+            }
+            
+            if(url.contains("#")){
+                print("URLに「#」が入っています。ページをreloadします。")
+                self.webView.reload()
+                
+                beforeHashURL = "1"
+            }
+            
         }
     }
     

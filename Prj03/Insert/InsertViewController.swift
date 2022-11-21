@@ -373,7 +373,7 @@ class InsertViewController: UIViewController {
         //正規化チェック
         //[0-9a-z._%+-]+@[a-z]+.[a-z]
         //
-        if id.text!.range(of: "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}", options: .regularExpression) == nil{
+        if id.text!.range(of: "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}", options: .regularExpression) == nil{
            
             alert = UIAlertController(title: "IDはメールアドレスです。\nメールアドレスを入力してください。", message: "", preferredStyle: UIAlertController.Style.alert)
             
